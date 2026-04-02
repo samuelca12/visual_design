@@ -241,6 +241,14 @@
     }
     .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
 
+    .hero-logo {
+      max-width: min(480px, 85vw);
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 8px 32px rgba(0,0,0,0.55));
+      animation: fadeUp 1.3s ease both;
+    }
+
     .hero-scroll-indicator {
       position: absolute;
       bottom: 2.2rem;
@@ -913,6 +921,88 @@
     .wa-btn-green:hover { background: #1ebc59; }
 
     /* ──────────────────────────────────────────────────────────────────
+       RESEÑAS
+    ────────────────────────────────────────────────────────────────── */
+    #resenas { background: var(--black); }
+
+    .resenas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.6rem;
+      margin-top: 3rem;
+    }
+
+    .resena-card {
+      background: var(--dark-gray);
+      border: 1px solid rgba(141,137,121,0.1);
+      padding: 2rem 1.8rem 1.8rem;
+      position: relative;
+      transition: border-color 0.4s var(--ease), transform 0.4s var(--ease);
+      display: flex;
+      flex-direction: column;
+    }
+    .resena-card:hover {
+      border-color: rgba(154,0,0,0.3);
+      transform: translateY(-4px);
+    }
+
+    .resena-quote-mark {
+      position: absolute;
+      top: 1rem; right: 1.4rem;
+      font-family: Georgia, serif;
+      font-size: 4rem;
+      line-height: 1;
+      color: rgba(154,0,0,0.18);
+      pointer-events: none;
+    }
+
+    .resena-stars {
+      display: flex;
+      gap: 0.2rem;
+      margin-bottom: 1rem;
+    }
+    .resena-stars i { color: var(--red); font-size: 0.8rem; }
+
+    .resena-text {
+      font-family: var(--font-cg);
+      font-size: 1.06rem;
+      color: var(--light-gray);
+      font-style: italic;
+      line-height: 1.78;
+      margin-bottom: 1.4rem;
+      flex: 1;
+    }
+
+    .resena-author {
+      font-family: var(--font-ph);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .resena-source {
+      font-family: var(--font-cg);
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-top: 0.2rem;
+      font-style: italic;
+    }
+
+    .resenas-footer-note {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-family: var(--font-cg);
+      font-size: 0.95rem;
+      color: var(--gray);
+      font-style: italic;
+    }
+    .resenas-footer-note a {
+      color: var(--red);
+      transition: color 0.3s;
+    }
+    .resenas-footer-note a:hover { color: var(--white); }
+
+    /* ──────────────────────────────────────────────────────────────────
        FOOTER
     ────────────────────────────────────────────────────────────────── */
     #footer {
@@ -1111,7 +1201,7 @@
   ═══════════════════════════════════════════════════════════════════════ -->
   <nav id="navbar">
     <a href="#hero" class="nav-logo">
-      <img src="imagenes/logo_sin_fondo.png" alt="Óptica Visual Design">
+      <img src="imagenes/logoblanco_sin_fondo.png" alt="Óptica Visual Design">
     </a>
 
     <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
@@ -1123,6 +1213,7 @@
       <li><a href="#catalogo">Catálogo</a></li>
       <li><a href="#ubicacion">Ubicación</a></li>
       <li><a href="#optometria">Optometría</a></li>
+      <li><a href="#resenas">Opiniones</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#optometria" class="nav-cta">Agendar examen</a></li>
     </ul>
@@ -1138,20 +1229,7 @@
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
-      <p class="hero-eyebrow">Óptica Visual Design &mdash; Plaza Mayor, Rohmoser</p>
-      <h1 class="hero-title">La visión<br>perfecta<br>te espera.</h1>
-      <p class="hero-subtitle">
-        Lentes de diseñador, exámenes visuales profesionales<br>
-        y un estilo que habla por sí solo.
-      </p>
-      <div class="hero-actions">
-        <a href="#catalogo" class="btn-primary">
-          Explorar catálogo <i class="fas fa-arrow-right"></i>
-        </a>
-        <a href="#optometria" class="btn-outline">
-          <i class="fas fa-eye"></i> Agendar examen
-        </a>
-      </div>
+      <img src="imagenes/logoblanco_sin_fondo.png" alt="Óptica Visual Design" class="hero-logo">
     </div>
 
     <div class="hero-scroll-indicator">
@@ -1449,7 +1527,7 @@
           <div class="icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
           <div>
             <strong>Dirección</strong>
-            <p>Plaza Mayor, Rohmoser<br>San José, Costa Rica</p>
+            <p>Plaza Mayor, Rohmoser<br>San José, Costa Rica<br><small style="color:var(--gray);font-size:0.85rem">9.94106, -84.12629</small></p>
           </div>
         </div>
         <div class="location-detail">
@@ -1467,7 +1545,14 @@
           <div class="icon-wrap"><i class="fab fa-whatsapp"></i></div>
           <div>
             <strong>WhatsApp</strong>
-            <p><a href="https://wa.me/50688888888" target="_blank" style="color:var(--light-gray);transition:color 0.3s" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--light-gray)'">+506 8888-8888</a></p>
+            <p><a href="https://wa.me/50664544672" target="_blank" style="color:var(--light-gray);transition:color 0.3s" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--light-gray)'">+506 6454-4672</a></p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="icon-wrap"><i class="fas fa-phone"></i></div>
+          <div>
+            <strong>Teléfono local</strong>
+            <p>+506 2290-0116</p>
           </div>
         </div>
         <div class="location-detail">
@@ -1481,7 +1566,7 @@
 
       <div class="location-map-wrap reveal reveal-delay-2">
         <iframe
-          src="https://maps.google.com/maps?q=Plaza+Mayor+Rohmoser+San+Jose+Costa+Rica&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=9.94106,-84.12629&t=&z=17&ie=UTF8&iwloc=&output=embed"
           allowfullscreen
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
@@ -1529,7 +1614,7 @@
           <div class="opt-feature"><i class="fas fa-check"></i> Asesoramiento personalizado sin costo extra</div>
         </div>
 
-        <a href="https://wa.me/50688888888?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20un%20examen%20visual."
+        <a href="https://wa.me/50664544672?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20un%20examen%20visual."
            class="optometry-cta-btn"
            target="_blank">
           <i class="fab fa-whatsapp"></i>
@@ -1631,7 +1716,7 @@
           <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
           <h3>¿Tienes más preguntas?</h3>
           <p>Nuestro equipo está listo para atenderte y resolver cualquier duda personalizada.</p>
-          <a href="https://wa.me/50688888888?text=Hola%2C%20tengo%20una%20consulta."
+          <a href="https://wa.me/50664544672?text=Hola%2C%20tengo%20una%20consulta."
              class="wa-btn-green"
              target="_blank">
             <i class="fab fa-whatsapp"></i> Escribirnos ahora
@@ -1652,12 +1737,103 @@
   </section>
 
   <!-- ════════════════════════════════════════════════════════════════════
+       RESEÑAS
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="resenas" class="section">
+    <div class="reveal">
+      <p class="section-label">Lo que opinan</p>
+      <h2 class="section-title">Nuestros clientes hablan</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">Reseñas reales de nuestros clientes en Facebook.</p>
+    </div>
+
+    <div class="resenas-grid">
+
+      <!-- Ángela -->
+      <div class="resena-card reveal">
+        <span class="resena-quote-mark">&ldquo;</span>
+        <div class="resena-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="resena-text">Precio, servicio al cliente, rapidez.</p>
+        <div>
+          <p class="resena-author">Ángela GBP</p>
+          <p class="resena-source">Opinión en Facebook</p>
+        </div>
+      </div>
+
+      <!-- Nuria -->
+      <div class="resena-card reveal reveal-delay-1">
+        <span class="resena-quote-mark">&ldquo;</span>
+        <div class="resena-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="resena-text">Me encanta la atención del Dr., muy profesional. La atención del personal es excelente y los precios muy buenos, siempre con lo último en tecnología. Tengo muchos años de hacerme los lentes ahí y a ojos cerrados los recomiendo.</p>
+        <div>
+          <p class="resena-author">Nuria Gámez Zúñiga</p>
+          <p class="resena-source">Opinión en Facebook</p>
+        </div>
+      </div>
+
+      <!-- Christian -->
+      <div class="resena-card reveal reveal-delay-2">
+        <span class="resena-quote-mark">&ldquo;</span>
+        <div class="resena-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="resena-text">Muy buenos precios y excelente atención.</p>
+        <div>
+          <p class="resena-author">Christian Massiel Ramírez Umaña</p>
+          <p class="resena-source">Opinión en Facebook</p>
+        </div>
+      </div>
+
+      <!-- Carlos -->
+      <div class="resena-card reveal">
+        <span class="resena-quote-mark">&ldquo;</span>
+        <div class="resena-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="resena-text">Calidad profesional y buen trato del Dr. y su personal. ¡Excelente!</p>
+        <div>
+          <p class="resena-author">Carlos Mauricio Cartín Solís</p>
+          <p class="resena-source">Opinión en Facebook</p>
+        </div>
+      </div>
+
+      <!-- Liliana -->
+      <div class="resena-card reveal reveal-delay-1">
+        <span class="resena-quote-mark">&ldquo;</span>
+        <div class="resena-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+          <i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="resena-text">¡Excelente! Calidad profesional y muy buen trato. 100% recomendado.</p>
+        <div>
+          <p class="resena-author">Liliana Azofeifa</p>
+          <p class="resena-source">Opinión en Facebook</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="resenas-footer-note reveal">
+      Y muchas opiniones más — encuéntranos en
+      <a href="https://www.facebook.com/OpticaVisualDesigns" target="_blank">Facebook</a>
+    </p>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
        FOOTER
   ═══════════════════════════════════════════════════════════════════════ -->
   <footer id="footer">
     <div class="footer-top">
       <div class="footer-brand">
-        <img src="imagenes/logo_sin_fondo.png" alt="Óptica Visual Design">
+        <img src="imagenes/logoblanco_sin_fondo.png" alt="Óptica Visual Design">
         <p>Desde Rohmoser, San José, llevamos visión de calidad a cada cliente con pasión, profesionalismo y estilo.</p>
       </div>
 
@@ -1687,7 +1863,7 @@
         <h4>Contacto</h4>
         <ul>
           <li>
-            <a href="https://wa.me/50688888888" target="_blank">
+            <a href="https://wa.me/50664544672" target="_blank">
               <i class="fab fa-whatsapp"></i> WhatsApp
             </a>
           </li>
@@ -1713,18 +1889,18 @@
     <!-- Redes sociales -->
     <div class="social-strip">
       <p>Síguenos en nuestras redes sociales</p>
-      <div class="social-title">@OpticaVisualDesign</div>
+      <div class="social-title">@visualdesignscr</div>
       <div class="social-icons">
-        <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+        <a href="https://www.instagram.com/visualdesignscr/" class="social-icon" target="_blank" aria-label="Instagram" title="Instagram">
           <i class="fab fa-instagram"></i>
         </a>
-        <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
+        <a href="https://www.facebook.com/OpticaVisualDesigns" class="social-icon" target="_blank" aria-label="Facebook" title="Facebook">
           <i class="fab fa-facebook-f"></i>
         </a>
         <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
           <i class="fab fa-tiktok"></i>
         </a>
-        <a href="https://wa.me/50688888888" class="social-icon" target="_blank" aria-label="WhatsApp" title="WhatsApp">
+        <a href="https://wa.me/50664544672" class="social-icon" target="_blank" aria-label="WhatsApp" title="WhatsApp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
@@ -1742,7 +1918,7 @@
   <script>
     /* ── Configuración ──────────────────────────────────────────────── */
     // ⚠️ Reemplaza este número con el número real de WhatsApp del negocio
-    const WA_NUMBER = '50688888888';
+    const WA_NUMBER = '50664544672';
 
     /* ── Navbar scroll ──────────────────────────────────────────────── */
     const navbar = document.getElementById('navbar');
