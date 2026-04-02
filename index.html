@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Óptica Visual Design | Rohmoser, San José</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ──────────────────────────────────────────────────────────────────
+       VARIABLES
+    ────────────────────────────────────────────────────────────────── */
+    :root {
+      --black:       #000000;
+      --red:         #9a0000;
+      --red-hover:   #b80000;
+      --dark-gray:   #3f3e3b;
+      --gray:        #8d8979;
+      --light-gray:  #d9d9dc;
+      --white:       #ffffff;
+      --surface:     #0c0c0c;
+      --font-ph:     'Philosopher', serif;
+      --font-cg:     'Cormorant Garamond', serif;
+      --ease:        cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       RESET & BASE
+    ────────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-cg);
+      background: var(--black);
+      color: var(--light-gray);
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--red); }
+
+    /* ──────────────────────────────────────────────────────────────────
+       NAVBAR
+    ────────────────────────────────────────────────────────────────── */
+    #navbar {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 5rem;
+      transition: background 0.4s var(--ease), padding 0.4s var(--ease), border-color 0.4s;
+      border-bottom: 1px solid transparent;
+    }
+    #navbar.scrolled {
+      background: rgba(0, 0, 0, 0.93);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 0.85rem 5rem;
+      border-bottom-color: rgba(154, 0, 0, 0.18);
+    }
+
+    .nav-logo img {
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2.8rem;
+      align-items: center;
+    }
+    .nav-links a {
+      font-family: var(--font-ph);
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      position: relative;
+      transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px; left: 0;
+      width: 0; height: 1px;
+      background: var(--red);
+      transition: width 0.35s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--red) !important;
+      color: var(--white) !important;
+      padding: 0.52rem 1.5rem;
+      border-radius: 1px;
+    }
+    .nav-cta::after { display: none !important; }
+    .nav-cta:hover { background: var(--red-hover) !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      z-index: 1001;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px; height: 2px;
+      background: var(--light-gray);
+      transition: 0.35s var(--ease);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ──────────────────────────────────────────────────────────────────
+       HERO
+    ────────────────────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        135deg,
+        rgba(0,0,0,0.78) 0%,
+        rgba(0,0,0,0.42) 55%,
+        rgba(154,0,0,0.12) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 820px;
+      padding: 2rem;
+      animation: fadeUp 1.3s ease both;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-ph);
+      font-size: 0.74rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.3rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-ph);
+      font-size: clamp(3.2rem, 7.5vw, 6.5rem);
+      font-weight: 700;
+      line-height: 1.04;
+      color: var(--white);
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-cg);
+      font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+      font-weight: 300;
+      color: var(--light-gray);
+      font-style: italic;
+      letter-spacing: 0.03em;
+      margin-bottom: 2.8rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-ph);
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1rem 2.6rem;
+      background: var(--red);
+      color: var(--white);
+      transition: background 0.3s, gap 0.3s;
+      border: none;
+    }
+    .btn-primary:hover { background: var(--red-hover); gap: 1rem; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-ph);
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1rem 2.6rem;
+      border: 1px solid rgba(217,217,220,0.45);
+      color: var(--white);
+      transition: border-color 0.3s, background 0.3s;
+      background: transparent;
+    }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce 2.2s ease-in-out infinite;
+    }
+    .hero-scroll-indicator span {
+      font-family: var(--font-ph);
+      font-size: 0.66rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(141,137,121,0.7);
+    }
+    .hero-scroll-indicator i { color: var(--red); font-size: 0.9rem; }
+
+    /* ──────────────────────────────────────────────────────────────────
+       SECTION SHARED
+    ────────────────────────────────────────────────────────────────── */
+    .section { padding: 6.5rem 5rem; }
+
+    .section-label {
+      font-family: var(--font-ph);
+      font-size: 0.72rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.85rem;
+    }
+    .section-title {
+      font-family: var(--font-ph);
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 0.8rem;
+    }
+    .section-divider {
+      width: 52px; height: 2px;
+      background: var(--red);
+      margin: 1.4rem 0;
+    }
+    .section-subtitle {
+      font-family: var(--font-cg);
+      font-size: 1.1rem;
+      color: var(--gray);
+      font-style: italic;
+      line-height: 1.8;
+      max-width: 560px;
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       MARCAS
+    ────────────────────────────────────────────────────────────────── */
+    #marcas {
+      background: var(--dark-gray);
+      padding: 5rem 0;
+      overflow: hidden;
+    }
+    .brands-header {
+      text-align: center;
+      padding: 0 5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .marquee-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .marquee-wrap::before,
+    .marquee-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 140px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .marquee-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, var(--dark-gray), transparent);
+    }
+    .marquee-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, var(--dark-gray), transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    .brand-item {
+      display: flex;
+      align-items: center;
+      padding: 0 3rem;
+    }
+    .brand-name {
+      font-family: var(--font-ph);
+      font-size: 1.35rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gray);
+      white-space: nowrap;
+      transition: color 0.3s;
+    }
+    .brand-name:hover { color: var(--white); }
+    .brand-sep {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--red);
+      margin-left: 3rem;
+      flex-shrink: 0;
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       CATÁLOGO
+    ────────────────────────────────────────────────────────────────── */
+    #catalogo { background: var(--surface); }
+
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 275px 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+      align-items: start;
+    }
+
+    /* ── Filters sidebar ── */
+    .filters-panel {
+      background: var(--dark-gray);
+      border: 1px solid rgba(141,137,121,0.14);
+      padding: 2rem 1.6rem;
+      position: sticky;
+      top: 88px;
+    }
+    .filters-panel h3 {
+      font-family: var(--font-ph);
+      font-size: 0.75rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.1rem;
+      border-bottom: 1px solid rgba(141,137,121,0.18);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .filters-panel h3 i { color: var(--red); }
+
+    .filter-group { margin-bottom: 1.7rem; }
+    .filter-group-label {
+      display: block;
+      font-family: var(--font-ph);
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.75rem;
+    }
+
+    .filter-select {
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(141,137,121,0.22);
+      color: var(--light-gray);
+      font-family: var(--font-cg);
+      font-size: 1rem;
+      padding: 0.6rem 0.75rem;
+      appearance: none;
+      transition: border-color 0.3s;
+    }
+    .filter-select:focus { outline: none; border-color: var(--red); }
+    .filter-select option { background: var(--dark-gray); }
+
+    .price-range { display: flex; gap: 0.5rem; }
+    .price-input {
+      flex: 1;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(141,137,121,0.22);
+      color: var(--light-gray);
+      font-family: var(--font-cg);
+      font-size: 0.95rem;
+      padding: 0.6rem 0.6rem;
+    }
+    .price-input:focus { outline: none; border-color: var(--red); }
+    .price-input::placeholder { color: rgba(141,137,121,0.55); }
+
+    .checkbox-group { display: flex; flex-direction: column; gap: 0.55rem; }
+    .cb-label {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-family: var(--font-cg);
+      font-size: 1rem;
+      color: var(--light-gray);
+      cursor: pointer;
+    }
+    .cb-label input[type="checkbox"] {
+      appearance: none;
+      width: 15px; height: 15px;
+      border: 1px solid rgba(141,137,121,0.5);
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .cb-label input[type="checkbox"]:checked {
+      background: var(--red);
+      border-color: var(--red);
+    }
+    .cb-label input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      color: var(--white);
+    }
+
+    .filter-apply-btn {
+      width: 100%;
+      background: var(--red);
+      border: none;
+      color: var(--white);
+      font-family: var(--font-ph);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.9rem;
+      transition: background 0.3s;
+      margin-top: 0.3rem;
+    }
+    .filter-apply-btn:hover { background: var(--red-hover); }
+
+    .filter-reset-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(141,137,121,0.3);
+      color: var(--gray);
+      font-family: var(--font-ph);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.8rem;
+      transition: 0.3s;
+      margin-top: 0.5rem;
+    }
+    .filter-reset-btn:hover { border-color: var(--light-gray); color: var(--light-gray); }
+
+    /* ── Products area ── */
+    .sort-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.6rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(141,137,121,0.12);
+    }
+    .sort-bar span {
+      font-family: var(--font-cg);
+      font-size: 0.95rem;
+      color: var(--gray);
+    }
+    .sort-bar span b { color: var(--white); font-weight: 400; }
+    .sort-select {
+      background: var(--dark-gray);
+      border: 1px solid rgba(141,137,121,0.22);
+      color: var(--light-gray);
+      font-family: var(--font-cg);
+      font-size: 0.95rem;
+      padding: 0.4rem 0.85rem;
+      appearance: none;
+      cursor: pointer;
+    }
+    .sort-select:focus { outline: none; }
+
+    /* ── Product grid ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: var(--dark-gray);
+      border: 1px solid rgba(141,137,121,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+    }
+    .product-card:hover {
+      border-color: rgba(154,0,0,0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 22px 45px rgba(0,0,0,0.45);
+    }
+
+    .product-img-wrap {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #141414;
+    }
+    .product-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s var(--ease);
+    }
+    .product-card:hover .product-img-wrap img { transform: scale(1.07); }
+
+    .product-badge {
+      position: absolute;
+      top: 0.9rem; left: 0.9rem;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-ph);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.28rem 0.65rem;
+    }
+
+    .product-body {
+      padding: 1.2rem 1.1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-brand {
+      font-family: var(--font-ph);
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.3rem;
+    }
+    .product-name {
+      font-family: var(--font-ph);
+      font-size: 1rem;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+    .product-type {
+      font-family: var(--font-cg);
+      font-size: 0.9rem;
+      color: var(--gray);
+      font-style: italic;
+      margin-bottom: 0.7rem;
+    }
+    .product-gender-tag {
+      display: inline-block;
+      font-family: var(--font-ph);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+      border: 1px solid rgba(141,137,121,0.28);
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.9rem;
+    }
+    .product-prices {
+      display: flex;
+      align-items: baseline;
+      gap: 0.65rem;
+      margin-top: auto;
+      margin-bottom: 0.9rem;
+    }
+    .product-price {
+      font-family: var(--font-ph);
+      font-size: 1.18rem;
+      color: var(--white);
+    }
+    .product-price-old {
+      font-family: var(--font-cg);
+      font-size: 0.88rem;
+      color: var(--gray);
+      text-decoration: line-through;
+    }
+    .product-wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(154,0,0,0.55);
+      color: var(--light-gray);
+      font-family: var(--font-ph);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.75rem;
+      transition: background 0.3s, color 0.3s;
+    }
+    .product-wa-btn:hover { background: var(--red); color: var(--white); }
+    .product-wa-btn i { font-size: 0.9rem; }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 2rem;
+      display: none;
+    }
+    .no-results i { font-size: 3rem; color: var(--gray); display: block; margin-bottom: 1rem; }
+    .no-results p { font-family: var(--font-ph); color: var(--gray); font-size: 1rem; }
+
+    /* ──────────────────────────────────────────────────────────────────
+       UBICACIÓN
+    ────────────────────────────────────────────────────────────────── */
+    #ubicacion { background: var(--black); }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 3.5rem;
+    }
+
+    .location-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .location-detail .icon-wrap {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(154,0,0,0.35);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+    .location-detail .icon-wrap i { color: var(--red); font-size: 0.9rem; }
+    .location-detail div strong {
+      display: block;
+      font-family: var(--font-ph);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0.25rem;
+    }
+    .location-detail div p {
+      font-family: var(--font-cg);
+      font-size: 1.05rem;
+      color: var(--light-gray);
+      line-height: 1.65;
+    }
+
+    .location-map-wrap {
+      height: 420px;
+      border: 1px solid rgba(141,137,121,0.14);
+      overflow: hidden;
+      position: relative;
+    }
+    .location-map-wrap iframe {
+      width: 100%; height: 100%;
+      border: none;
+      filter: grayscale(75%) contrast(0.88);
+    }
+
+    /* ──────────────────────────────────────────────────────────────────
+       OPTOMETRÍA
+    ────────────────────────────────────────────────────────────────── */
+    #optometria {
+      background: var(--dark-gray);
+      position: relative;
+      overflow: hidden;
+    }
+    #optometria::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 85% 50%, rgba(154,0,0,0.14) 0%, transparent 58%),
+        radial-gradient(ellipse at 15% 80%, rgba(0,0,0,0.6) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .optometry-content {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    /* Eye chart decorative */
+    .eye-chart-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      height: 420px;
+      border: 1px solid rgba(154,0,0,0.2);
+      background: rgba(0,0,0,0.45);
+      position: relative;
+      overflow: hidden;
+    }
+    .eye-chart-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(154,0,0,0.07) 0%, transparent 70%);
+    }
+    .chart-row {
+      font-family: var(--font-ph);
+      letter-spacing: 0.3em;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+    }
+    .chart-row:nth-child(1) { font-size: 3rem;   opacity: 1;    }
+    .chart-row:nth-child(2) { font-size: 2.3rem; opacity: 0.88; }
+    .chart-row:nth-child(3) { font-size: 1.7rem; opacity: 0.72; }
+    .chart-row:nth-child(4) { font-size: 1.25rem;opacity: 0.55; }
+    .chart-row:nth-child(5) { font-size: 0.95rem;opacity: 0.38; }
+    .chart-row:nth-child(6) { font-size: 0.72rem;opacity: 0.22; }
+    .chart-line {
+      width: 80%;
+      height: 1px;
+      background: rgba(154,0,0,0.25);
+      position: relative; z-index: 1;
+    }
+
+    .optometry-features {
+      margin: 1.5rem 0 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .opt-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--font-cg);
+      font-size: 1.05rem;
+      color: var(--light-gray);
+    }
+    .opt-feature i { color: var(--red); font-size: 0.8rem; flex-shrink: 0; }
+
+    .optometry-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-ph);
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 1.05rem 2.4rem;
+      border: none;
+      transition: background 0.3s, gap 0.3s;
+    }
+    .optometry-cta-btn:hover { background: var(--red-hover); gap: 1.2rem; }
+
+    /* ──────────────────────────────────────────────────────────────────
+       FAQ
+    ────────────────────────────────────────────────────────────────── */
+    #faq { background: var(--surface); }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 5rem;
+      margin-top: 3.5rem;
+      align-items: start;
+    }
+
+    .faq-list { display: flex; flex-direction: column; }
+
+    .faq-item { border-bottom: 1px solid rgba(141,137,121,0.13); }
+
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.35rem 0;
+      cursor: pointer;
+      font-family: var(--font-ph);
+      font-size: 1rem;
+      color: var(--light-gray);
+      transition: color 0.3s;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+    }
+    .faq-q:hover, .faq-q.active { color: var(--white); }
+
+    .faq-icon {
+      color: var(--red);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: transform 0.35s;
+    }
+    .faq-q.active .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.42s var(--ease);
+    }
+    .faq-a.open { max-height: 280px; }
+    .faq-a p {
+      font-family: var(--font-cg);
+      font-size: 1.02rem;
+      color: var(--gray);
+      line-height: 1.78;
+      padding-bottom: 1.4rem;
+    }
+
+    /* FAQ sidebar card */
+    .faq-sidebar { display: flex; flex-direction: column; gap: 1.2rem; position: sticky; top: 88px; }
+
+    .faq-card {
+      background: var(--dark-gray);
+      border: 1px solid rgba(141,137,121,0.1);
+      padding: 2.2rem;
+      text-align: center;
+    }
+    .faq-card .card-icon {
+      font-size: 2.5rem;
+      color: var(--red);
+      margin-bottom: 1.2rem;
+    }
+    .faq-card h3 {
+      font-family: var(--font-ph);
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 0.7rem;
+    }
+    .faq-card p {
+      font-family: var(--font-cg);
+      font-size: 0.98rem;
+      color: var(--gray);
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .wa-btn-green {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      background: #25D366;
+      color: var(--white);
+      font-family: var(--font-ph);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.8rem;
+      transition: background 0.3s;
+    }
+    .wa-btn-green:hover { background: #1ebc59; }
+
+    /* ──────────────────────────────────────────────────────────────────
+       FOOTER
+    ────────────────────────────────────────────────────────────────── */
+    #footer {
+      background: var(--black);
+      border-top: 1px solid rgba(141,137,121,0.1);
+      padding: 5rem 5rem 2.5rem;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .footer-brand img { height: 46px; margin-bottom: 1.2rem; }
+    .footer-brand p {
+      font-family: var(--font-cg);
+      font-size: 0.98rem;
+      color: var(--gray);
+      line-height: 1.75;
+      font-style: italic;
+      max-width: 290px;
+    }
+
+    .footer-col h4 {
+      font-family: var(--font-ph);
+      font-size: 0.7rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--light-gray);
+      margin-bottom: 1.3rem;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
+    .footer-col ul li a {
+      font-family: var(--font-cg);
+      font-size: 0.97rem;
+      color: var(--gray);
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .footer-col ul li a i { color: var(--red); font-size: 0.8rem; }
+    .footer-col ul li a:hover { color: var(--white); }
+
+    /* Social strip */
+    .social-strip {
+      text-align: center;
+      padding: 2.8rem 0;
+      border-top: 1px solid rgba(141,137,121,0.1);
+      border-bottom: 1px solid rgba(141,137,121,0.1);
+      margin-bottom: 2.5rem;
+    }
+    .social-strip p {
+      font-family: var(--font-ph);
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 1.6rem;
+    }
+    .social-strip .social-title {
+      font-family: var(--font-ph);
+      font-size: 1.5rem;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .social-icons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      margin-top: 1.4rem;
+    }
+    .social-icon {
+      display: grid;
+      place-items: center;
+      width: 46px; height: 46px;
+      border: 1px solid rgba(141,137,121,0.22);
+      color: var(--gray);
+      font-size: 1rem;
+      transition: all 0.35s;
+    }
+    .social-icon:hover {
+      border-color: var(--red);
+      color: var(--white);
+      background: rgba(154,0,0,0.12);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-bottom p {
+      font-family: var(--font-cg);
+      font-size: 0.88rem;
+      color: rgba(141,137,121,0.65);
+    }
+    .footer-bottom a { color: var(--red); }
+
+    /* ──────────────────────────────────────────────────────────────────
+       ANIMATIONS & REVEAL
+    ────────────────────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(9px); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.72s ease, transform 0.72s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.12s; }
+    .reveal-delay-2 { transition-delay: 0.24s; }
+
+    /* ──────────────────────────────────────────────────────────────────
+       RESPONSIVE
+    ────────────────────────────────────────────────────────────────── */
+    @media (max-width: 1200px) {
+      .section { padding: 5.5rem 3rem; }
+      #navbar, #navbar.scrolled { padding-left: 3rem; padding-right: 3rem; }
+      #footer { padding-left: 3rem; padding-right: 3rem; }
+    }
+
+    @media (max-width: 1024px) {
+      .catalog-layout { grid-template-columns: 240px 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .faq-sidebar { position: static; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .optometry-content { gap: 3.5rem; }
+    }
+
+    @media (max-width: 880px) {
+      /* Mobile nav */
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.97);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2.8rem;
+        z-index: 999;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.15rem; }
+      .hamburger { display: flex; }
+
+      .section { padding: 4.5rem 1.8rem; }
+      #navbar { padding: 1rem 1.8rem; }
+      #navbar.scrolled { padding: 0.75rem 1.8rem; }
+      #footer { padding: 3.5rem 1.8rem 2rem; }
+      .brands-header { padding: 0 1.8rem; }
+
+      .catalog-layout { grid-template-columns: 1fr; }
+      .filters-panel { position: static; }
+      .location-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .optometry-content { grid-template-columns: 1fr; }
+      .eye-chart-visual { height: 260px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .section { padding: 3.5rem 1.2rem; }
+      #navbar { padding: 0.9rem 1.2rem; }
+      #navbar.scrolled { padding: 0.7rem 1.2rem; }
+      #footer { padding: 3rem 1.2rem 1.5rem; }
+      .brands-header { padding: 0 1.2rem; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 0.7rem; text-align: center; }
+      .hero-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      <img src="imagenes/logo_sin_fondo.png" alt="Óptica Visual Design">
+    </a>
+
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#marcas">Marcas</a></li>
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#ubicacion">Ubicación</a></li>
+      <li><a href="#optometria">Optometría</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#optometria" class="nav-cta">Agendar examen</a></li>
+    </ul>
+  </nav>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="hero">
+    <video id="hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="https://res.cloudinary.com/dh0mtvkwq/video/upload/v1775087829/optica_project_n6os6y.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Óptica Visual Design &mdash; Plaza Mayor, Rohmoser</p>
+      <h1 class="hero-title">La visión<br>perfecta<br>te espera.</h1>
+      <p class="hero-subtitle">
+        Lentes de diseñador, exámenes visuales profesionales<br>
+        y un estilo que habla por sí solo.
+      </p>
+      <div class="hero-actions">
+        <a href="#catalogo" class="btn-primary">
+          Explorar catálogo <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="#optometria" class="btn-outline">
+          <i class="fas fa-eye"></i> Agendar examen
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-scroll-indicator">
+      <span>Scroll</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       MARCAS
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="marcas">
+    <div class="brands-header reveal">
+      <p class="section-label">Marcas exclusivas</p>
+      <h2 class="section-title">Diseñadores de talla mundial</h2>
+    </div>
+
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <!-- Set 1 -->
+        <div class="brand-item"><span class="brand-name">Ray-Ban</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Oakley</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Prada</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Tom Ford</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Silhouette</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Carrera</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Versace</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Gucci</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Maui Jim</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Michael Kors</span><span class="brand-sep"></span></div>
+        <!-- Set 2 — duplicate for seamless loop -->
+        <div class="brand-item"><span class="brand-name">Ray-Ban</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Oakley</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Prada</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Tom Ford</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Silhouette</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Carrera</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Versace</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Gucci</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Maui Jim</span><span class="brand-sep"></span></div>
+        <div class="brand-item"><span class="brand-name">Michael Kors</span><span class="brand-sep"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       CATÁLOGO
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="catalogo" class="section">
+    <div class="catalog-header reveal">
+      <p class="section-label">Colección actual</p>
+      <h2 class="section-title">Catálogo</h2>
+      <div class="section-divider"></div>
+      <p class="section-subtitle">
+        Encuentra el lente que expresa tu estilo. Filtra por marca, tipo, precio y género.
+      </p>
+    </div>
+
+    <div class="catalog-layout">
+      <!-- ── FILTROS ── -->
+      <aside class="filters-panel reveal reveal-delay-1">
+        <h3><i class="fas fa-sliders"></i> Filtros</h3>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Marca</label>
+          <select class="filter-select" id="filterBrand">
+            <option value="">Todas las marcas</option>
+            <option value="Ray-Ban">Ray-Ban</option>
+            <option value="Oakley">Oakley</option>
+            <option value="Prada">Prada</option>
+            <option value="Silhouette">Silhouette</option>
+            <option value="Carrera">Carrera</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Tipo de lente</label>
+          <select class="filter-select" id="filterType">
+            <option value="">Todos los tipos</option>
+            <option value="sol">Lentes de Sol</option>
+            <option value="deportivos">Deportivos</option>
+            <option value="normales">Armazón Normal</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Rango de precio (₡)</label>
+          <div class="price-range">
+            <input type="number" class="price-input" id="priceMin" placeholder="Mínimo" min="0">
+            <input type="number" class="price-input" id="priceMax" placeholder="Máximo" min="0">
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Género</label>
+          <div class="checkbox-group">
+            <label class="cb-label"><input type="checkbox" class="gender-cb" value="hombre"> Hombre</label>
+            <label class="cb-label"><input type="checkbox" class="gender-cb" value="mujer"> Mujer</label>
+            <label class="cb-label"><input type="checkbox" class="gender-cb" value="ninos"> Niños</label>
+            <label class="cb-label"><input type="checkbox" class="gender-cb" value="unisex"> Unisex</label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label class="cb-label" style="font-family:var(--font-ph);font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--light-gray);">
+            <input type="checkbox" id="filterOferta">
+            Solo productos en oferta
+          </label>
+        </div>
+
+        <button class="filter-apply-btn" onclick="applyFilters()">
+          <i class="fas fa-check" style="margin-right:0.4rem"></i>Aplicar filtros
+        </button>
+        <button class="filter-reset-btn" onclick="resetFilters()">
+          Limpiar filtros
+        </button>
+      </aside>
+
+      <!-- ── PRODUCTOS ── -->
+      <div>
+        <div class="sort-bar reveal">
+          <span>Mostrando <b id="productCount">5</b> productos</span>
+          <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+            <option value="">Ordenar por</option>
+            <option value="asc">Precio: Menor a Mayor</option>
+            <option value="desc">Precio: Mayor a Menor</option>
+          </select>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+
+          <!-- ─ Producto 1: Ray-Ban Aviator Classic ─ -->
+          <article class="product-card reveal"
+            data-brand="Ray-Ban"
+            data-type="sol"
+            data-price="97500"
+            data-gender="unisex"
+            data-oferta="false">
+            <div class="product-img-wrap">
+              <img
+                src="https://placehold.co/480x360/141414/d9d9dc?text=Ray-Ban+Aviator"
+                alt="Ray-Ban Aviator Classic"
+                loading="lazy">
+            </div>
+            <div class="product-body">
+              <p class="product-brand">Ray-Ban</p>
+              <h3 class="product-name">Aviator Classic</h3>
+              <p class="product-type">Lentes de Sol</p>
+              <span class="product-gender-tag">Unisex</span>
+              <div class="product-prices">
+                <span class="product-price">₡97.500</span>
+              </div>
+              <button class="product-wa-btn" onclick="cotizarWA('Ray-Ban Aviator Classic', '₡97.500')">
+                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+              </button>
+            </div>
+          </article>
+
+          <!-- ─ Producto 2: Oakley Holbrook Performance ─ -->
+          <article class="product-card reveal reveal-delay-1"
+            data-brand="Oakley"
+            data-type="deportivos"
+            data-price="115000"
+            data-gender="unisex"
+            data-oferta="true">
+            <div class="product-img-wrap">
+              <img
+                src="https://placehold.co/480x360/141414/d9d9dc?text=Oakley+Holbrook"
+                alt="Oakley Holbrook Performance"
+                loading="lazy">
+              <span class="product-badge">Oferta</span>
+            </div>
+            <div class="product-body">
+              <p class="product-brand">Oakley</p>
+              <h3 class="product-name">Holbrook Performance</h3>
+              <p class="product-type">Deportivos</p>
+              <span class="product-gender-tag">Unisex</span>
+              <div class="product-prices">
+                <span class="product-price">₡115.000</span>
+                <span class="product-price-old">₡145.000</span>
+              </div>
+              <button class="product-wa-btn" onclick="cotizarWA('Oakley Holbrook Performance', '₡115.000 (Oferta)')">
+                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+              </button>
+            </div>
+          </article>
+
+          <!-- ─ Producto 3: Prada Catwalk ─ -->
+          <article class="product-card reveal reveal-delay-2"
+            data-brand="Prada"
+            data-type="sol"
+            data-price="195000"
+            data-gender="mujer"
+            data-oferta="false">
+            <div class="product-img-wrap">
+              <img
+                src="https://placehold.co/480x360/141414/d9d9dc?text=Prada+Catwalk"
+                alt="Prada Catwalk"
+                loading="lazy">
+            </div>
+            <div class="product-body">
+              <p class="product-brand">Prada</p>
+              <h3 class="product-name">Catwalk SPR 07YS</h3>
+              <p class="product-type">Lentes de Sol</p>
+              <span class="product-gender-tag">Mujer</span>
+              <div class="product-prices">
+                <span class="product-price">₡195.000</span>
+              </div>
+              <button class="product-wa-btn" onclick="cotizarWA('Prada Catwalk SPR 07YS', '₡195.000')">
+                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+              </button>
+            </div>
+          </article>
+
+          <!-- ─ Producto 4: Silhouette Titan ─ -->
+          <article class="product-card reveal"
+            data-brand="Silhouette"
+            data-type="normales"
+            data-price="138000"
+            data-gender="unisex"
+            data-oferta="false">
+            <div class="product-img-wrap">
+              <img
+                src="https://placehold.co/480x360/141414/d9d9dc?text=Silhouette+Titan"
+                alt="Silhouette Titan Minimal Art"
+                loading="lazy">
+            </div>
+            <div class="product-body">
+              <p class="product-brand">Silhouette</p>
+              <h3 class="product-name">Titan Minimal Art</h3>
+              <p class="product-type">Armazón Normal</p>
+              <span class="product-gender-tag">Unisex</span>
+              <div class="product-prices">
+                <span class="product-price">₡138.000</span>
+              </div>
+              <button class="product-wa-btn" onclick="cotizarWA('Silhouette Titan Minimal Art', '₡138.000')">
+                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+              </button>
+            </div>
+          </article>
+
+          <!-- ─ Producto 5: Carrera Kids Champion ─ -->
+          <article class="product-card reveal reveal-delay-1"
+            data-brand="Carrera"
+            data-type="sol"
+            data-price="52000"
+            data-gender="ninos"
+            data-oferta="true">
+            <div class="product-img-wrap">
+              <img
+                src="https://placehold.co/480x360/141414/d9d9dc?text=Carrera+Kids"
+                alt="Carrera Kids Champion"
+                loading="lazy">
+              <span class="product-badge">Oferta</span>
+            </div>
+            <div class="product-body">
+              <p class="product-brand">Carrera</p>
+              <h3 class="product-name">Kids Champion</h3>
+              <p class="product-type">Lentes de Sol</p>
+              <span class="product-gender-tag">Niños</span>
+              <div class="product-prices">
+                <span class="product-price">₡52.000</span>
+                <span class="product-price-old">₡68.000</span>
+              </div>
+              <button class="product-wa-btn" onclick="cotizarWA('Carrera Kids Champion', '₡52.000 (Oferta)')">
+                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+              </button>
+            </div>
+          </article>
+
+          <!-- Estado vacío -->
+          <div class="no-results" id="noResults">
+            <i class="fas fa-glasses"></i>
+            <p>No se encontraron productos con los filtros seleccionados.</p>
+          </div>
+
+        </div><!-- /products-grid -->
+      </div><!-- /products area -->
+    </div><!-- /catalog-layout -->
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       UBICACIÓN
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="ubicacion" class="section">
+    <div class="reveal">
+      <p class="section-label">Encuéntranos</p>
+      <h2 class="section-title">Visítanos en persona</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="location-grid">
+      <div class="reveal reveal-delay-1">
+        <div class="location-detail">
+          <div class="icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <strong>Dirección</strong>
+            <p>Plaza Mayor, Rohmoser<br>San José, Costa Rica</p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="icon-wrap"><i class="fas fa-clock"></i></div>
+          <div>
+            <strong>Horario de atención</strong>
+            <p>
+              Lunes a Viernes: 9:00 a.m. – 6:00 p.m.<br>
+              Sábado: 9:00 a.m. – 4:00 p.m.<br>
+              Domingo: Cerrado
+            </p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="icon-wrap"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <strong>WhatsApp</strong>
+            <p><a href="https://wa.me/50688888888" target="_blank" style="color:var(--light-gray);transition:color 0.3s" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color='var(--light-gray)'">+506 8888-8888</a></p>
+          </div>
+        </div>
+        <div class="location-detail">
+          <div class="icon-wrap"><i class="fas fa-envelope"></i></div>
+          <div>
+            <strong>Correo electrónico</strong>
+            <p>info@opticavisualdesign.cr</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-map-wrap reveal reveal-delay-2">
+        <iframe
+          src="https://maps.google.com/maps?q=Plaza+Mayor+Rohmoser+San+Jose+Costa+Rica&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Ubicación Óptica Visual Design — Plaza Mayor, Rohmoser">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       OPTOMETRÍA
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="optometria" class="section">
+    <div class="optometry-content">
+      <!-- Visual decorativa -->
+      <div class="eye-chart-visual reveal">
+        <div class="chart-row">E</div>
+        <div class="chart-line"></div>
+        <div class="chart-row">F&nbsp;&nbsp;P</div>
+        <div class="chart-line"></div>
+        <div class="chart-row">T&nbsp;&nbsp;O&nbsp;&nbsp;Z</div>
+        <div class="chart-line"></div>
+        <div class="chart-row">L&nbsp;&nbsp;P&nbsp;&nbsp;E&nbsp;&nbsp;D</div>
+        <div class="chart-line"></div>
+        <div class="chart-row">P&nbsp;&nbsp;E&nbsp;&nbsp;C&nbsp;&nbsp;F&nbsp;&nbsp;D</div>
+        <div class="chart-line"></div>
+        <div class="chart-row">E&nbsp;&nbsp;D&nbsp;&nbsp;F&nbsp;&nbsp;C&nbsp;&nbsp;Z&nbsp;&nbsp;P</div>
+      </div>
+
+      <!-- Texto -->
+      <div class="reveal reveal-delay-1">
+        <p class="section-label">Servicio médico</p>
+        <h2 class="section-title">Examen Visual<br>Profesional</h2>
+        <div class="section-divider"></div>
+        <p class="section-subtitle">
+          Nuestros optómetras certificados realizan un diagnóstico completo de tu salud visual
+          para garantizarte la prescripción exacta que necesitas.
+        </p>
+
+        <div class="optometry-features">
+          <div class="opt-feature"><i class="fas fa-check"></i> Examen de agudeza visual completo</div>
+          <div class="opt-feature"><i class="fas fa-check"></i> Detección de miopía, hipermetropía y astigmatismo</div>
+          <div class="opt-feature"><i class="fas fa-check"></i> Evaluación de presión intraocular</div>
+          <div class="opt-feature"><i class="fas fa-check"></i> Prescripción de lentes monofocales y progresivos</div>
+          <div class="opt-feature"><i class="fas fa-check"></i> Asesoramiento personalizado sin costo extra</div>
+        </div>
+
+        <a href="https://wa.me/50688888888?text=Hola%2C%20me%20gustar%C3%ADa%20agendar%20un%20examen%20visual."
+           class="optometry-cta-btn"
+           target="_blank">
+          <i class="fab fa-whatsapp"></i>
+          Agendar mi cita
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       FAQ
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <section id="faq" class="section">
+    <div class="reveal">
+      <p class="section-label">Dudas frecuentes</p>
+      <h2 class="section-title">Preguntas Frecuentes</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-list reveal reveal-delay-1">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Cómo puedo agendar mi examen visual?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Puedes agendar tu cita directamente por WhatsApp haciendo clic en el botón de "Agendar mi cita", o llamándonos al +506 8888-8888. También puedes visitarnos directamente en Plaza Mayor, Rohmoser, San José.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Cuánto tiempo tarda en estar listo mi pedido?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Los lentes graduados están listos en un plazo de 3 a 5 días hábiles. Los armazones sin graduar o lentes de sol pueden llevárselos el mismo día. Para lentes progresivos o casos especiales, el tiempo es de 7 a 10 días hábiles.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Ofrecen garantía en los productos?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Sí. Todos nuestros productos cuentan con garantía de fábrica. Adicionalmente ofrecemos 6 meses en cristales y 1 año en armazones contra defectos de fabricación. La garantía no cubre daños por accidentes o mal uso.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Cuál es la diferencia entre lentes monofocales y progresivos?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Los lentes monofocales corrigen un único defecto visual (lejos o cerca), mientras que los progresivos corrigen múltiples condiciones en una sola lente sin línea visible, brindando visión nítida a todas las distancias. Nuestros especialistas te orientarán sobre la mejor opción.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Puedo traer mi receta de otro oculista?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Por supuesto. Aceptamos recetas de cualquier oculista u optometrista certificado. Si tu receta tiene más de 2 años, recomendamos realizarte un nuevo examen para garantizar la exactitud de tu prescripción.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Trabajan con seguros médicos o el INS?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Actualmente emitimos facturas electrónicas para que puedas realizar el trámite de reembolso directamente con tu aseguradora. Te proporcionamos todos los documentos necesarios. Contáctanos para más detalles sobre tu caso específico.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            ¿Hacen ajustes y reparaciones de armazones?
+            <i class="fas fa-plus faq-icon"></i>
+          </button>
+          <div class="faq-a">
+            <p>Sí, realizamos ajustes y reparaciones menores de armazones de manera gratuita para clientes. Para armazones de terceras marcas o daños mayores, te cotizamos el costo antes de proceder. Visítanos en Plaza Mayor para una evaluación sin compromiso.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar FAQ -->
+      <div class="faq-sidebar">
+        <div class="faq-card reveal reveal-delay-2">
+          <div class="card-icon"><i class="fab fa-whatsapp"></i></div>
+          <h3>¿Tienes más preguntas?</h3>
+          <p>Nuestro equipo está listo para atenderte y resolver cualquier duda personalizada.</p>
+          <a href="https://wa.me/50688888888?text=Hola%2C%20tengo%20una%20consulta."
+             class="wa-btn-green"
+             target="_blank">
+            <i class="fab fa-whatsapp"></i> Escribirnos ahora
+          </a>
+        </div>
+
+        <div class="faq-card reveal reveal-delay-2">
+          <div class="card-icon" style="font-size:2rem"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>Visítanos</h3>
+          <p>Plaza Mayor, Rohmoser<br>San José, Costa Rica</p>
+          <a href="#ubicacion" class="wa-btn-green" style="background:var(--red)">
+            <i class="fas fa-directions"></i> Cómo llegar
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="imagenes/logo_sin_fondo.png" alt="Óptica Visual Design">
+        <p>Desde Rohmoser, San José, llevamos visión de calidad a cada cliente con pasión, profesionalismo y estilo.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#marcas">Marcas</a></li>
+          <li><a href="#catalogo">Catálogo</a></li>
+          <li><a href="#ubicacion">Ubicación</a></li>
+          <li><a href="#optometria">Optometría</a></li>
+          <li><a href="#faq">Preguntas Frecuentes</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul>
+          <li><a href="#optometria">Examen Visual</a></li>
+          <li><a href="#catalogo">Lentes de Sol</a></li>
+          <li><a href="#catalogo">Lentes Deportivos</a></li>
+          <li><a href="#catalogo">Armazones Graduados</a></li>
+          <li><a href="#catalogo">Lentes para Niños</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li>
+            <a href="https://wa.me/50688888888" target="_blank">
+              <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href="mailto:info@opticavisualdesign.cr">
+              <i class="fas fa-envelope"></i> Email
+            </a>
+          </li>
+          <li>
+            <a href="#ubicacion">
+              <i class="fas fa-map-marker-alt"></i> Plaza Mayor, Rohmoser
+            </a>
+          </li>
+          <li>
+            <a href="#optometria">
+              <i class="fas fa-eye"></i> Agendar cita
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Redes sociales -->
+    <div class="social-strip">
+      <p>Síguenos en nuestras redes sociales</p>
+      <div class="social-title">@OpticaVisualDesign</div>
+      <div class="social-icons">
+        <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" class="social-icon" aria-label="Facebook" title="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-icon" aria-label="TikTok" title="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://wa.me/50688888888" class="social-icon" target="_blank" aria-label="WhatsApp" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2025 Óptica Visual Design. Todos los derechos reservados.</p>
+      <p>Hecho con <span style="color:var(--red)">♥</span> en Costa Rica</p>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <script>
+    /* ── Configuración ──────────────────────────────────────────────── */
+    // ⚠️ Reemplaza este número con el número real de WhatsApp del negocio
+    const WA_NUMBER = '50688888888';
+
+    /* ── Navbar scroll ──────────────────────────────────────────────── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 55);
+    }, { passive: true });
+
+    /* ── Menú hamburguesa ───────────────────────────────────────────── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ── Reveal on scroll ───────────────────────────────────────────── */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ── FAQ Accordion ──────────────────────────────────────────────── */
+    function toggleFaq(btn) {
+      const answer = btn.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-a.open').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-q.active').forEach(q => q.classList.remove('active'));
+
+      if (!isOpen) {
+        answer.classList.add('open');
+        btn.classList.add('active');
+      }
+    }
+
+    /* ── WhatsApp cotizar ───────────────────────────────────────────── */
+    function cotizarWA(nombre, precio) {
+      const mensaje = encodeURIComponent(
+        `Hola, me interesa cotizar el siguiente producto:\n\n` +
+        `*${nombre}*\n` +
+        `Precio: ${precio}\n\n` +
+        `¿Podría darme más información?`
+      );
+      window.open(`https://wa.me/${WA_NUMBER}?text=${mensaje}`, '_blank');
+    }
+
+    /* ── Filtros del catálogo ───────────────────────────────────────── */
+    function applyFilters() {
+      const brand    = document.getElementById('filterBrand').value;
+      const type     = document.getElementById('filterType').value;
+      const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
+      const priceMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
+      const oferta   = document.getElementById('filterOferta').checked;
+      const sort     = document.getElementById('sortSelect').value;
+      const genders  = [...document.querySelectorAll('.gender-cb:checked')].map(c => c.value);
+
+      const cards   = [...document.querySelectorAll('.product-card')];
+      const visible = [];
+
+      cards.forEach(card => {
+        const match =
+          (!brand   || card.dataset.brand  === brand)  &&
+          (!type    || card.dataset.type   === type)   &&
+          (parseFloat(card.dataset.price) >= priceMin) &&
+          (parseFloat(card.dataset.price) <= priceMax) &&
+          (genders.length === 0 || genders.includes(card.dataset.gender)) &&
+          (!oferta  || card.dataset.oferta === 'true');
+
+        card.style.display = match ? '' : 'none';
+        if (match) visible.push(card);
+      });
+
+      // Ordenar
+      if (sort === 'asc' || sort === 'desc') {
+        const grid = document.getElementById('productsGrid');
+        visible.sort((a, b) => {
+          const diff = parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+          return sort === 'asc' ? diff : -diff;
+        });
+        visible.forEach(card => grid.appendChild(card));
+      }
+
+      document.getElementById('productCount').textContent = visible.length;
+      document.getElementById('noResults').style.display = visible.length === 0 ? 'block' : 'none';
+    }
+
+    function resetFilters() {
+      document.getElementById('filterBrand').value     = '';
+      document.getElementById('filterType').value      = '';
+      document.getElementById('priceMin').value        = '';
+      document.getElementById('priceMax').value        = '';
+      document.getElementById('filterOferta').checked  = false;
+      document.getElementById('sortSelect').value      = '';
+      document.querySelectorAll('.gender-cb').forEach(cb => cb.checked = false);
+      applyFilters();
+    }
+  </script>
+
+</body>
+</html>
