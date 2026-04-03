@@ -517,7 +517,7 @@
     /* ── Product grid ── */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
     }
 
@@ -582,23 +582,22 @@
       color: var(--white);
       margin-bottom: 0.25rem;
     }
-    .product-type {
+    .product-meta {
       font-family: var(--font-cg);
-      font-size: 1rem;
-      color: var(--light-gray);
-      font-style: italic;
-      margin-bottom: 0.7rem;
+      font-size: 0.88rem;
+      color: var(--gray);
+      margin-bottom: 0.8rem;
     }
-    .product-gender-tag {
-      display: inline-block;
-      font-family: var(--font-ph);
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--light-gray);
-      border: 1px solid rgba(141,137,121,0.35);
-      padding: 0.22rem 0.55rem;
-      margin-bottom: 0.9rem;
+
+    .catalog-video {
+      overflow: hidden;
+      border: 1px solid rgba(141,137,121,0.1);
+      aspect-ratio: auto;
+    }
+    .catalog-video video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
     }
     .product-prices {
       display: flex;
@@ -1482,6 +1481,7 @@
 
     @media (max-width: 1024px) {
       .catalog-layout { grid-template-columns: 240px 1fr; }
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
       .faq-grid { grid-template-columns: 1fr; }
       .faq-sidebar { position: static; }
       .footer-top { grid-template-columns: 1fr 1fr; }
@@ -1518,6 +1518,7 @@
       .brands-gallery-wrap { height: 420px; }
 
       .catalog-layout { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: repeat(3, 1fr); }
       .filters-panel { position: static; }
       .location-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .optometry-content { grid-template-columns: 1fr; }
@@ -1533,6 +1534,13 @@
       #marcas { padding: 2.5rem 0 0; }
       .brands-header { padding: 0 1.2rem; }
       .brands-gallery-wrap { height: 350px; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+      .product-body { padding: 0.8rem; }
+      .product-brand { font-size: 0.65rem; }
+      .product-meta { font-size: 0.78rem; }
+      .product-price { font-size: 1.05rem; }
+      .product-price-old { font-size: 0.88rem; }
+      .product-wa-btn { font-size: 0.68rem; padding: 0.6rem; }
       .footer-top { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 0.7rem; text-align: center; }
       .hero-actions { flex-direction: column; align-items: center; }
@@ -2361,8 +2369,7 @@
           </div>
           <div class="product-body">
             <p class="product-brand">${product.marca}</p>
-            <p class="product-type">${capitalize(product.tipo)}</p>
-            <span class="product-gender-tag">${capitalize(product.categoria)}</span>
+            <p class="product-meta">${capitalize(product.tipo)} &middot; ${capitalize(product.categoria)}</p>
             <div class="product-prices">${pricesHTML}</div>
             <button class="product-wa-btn" onclick="event.stopPropagation(); cotizarWA('${product.marca} - ${capitalize(product.tipo)}', '${formatPrice(displayPrice)}')">
               <i class="fab fa-whatsapp"></i> Cotizar
@@ -2371,10 +2378,18 @@
 
         card.addEventListener('click', () => openProductModal(idx));
         grid.appendChild(card);
+
+        // Insert decorative video after the 3rd product
+        if (idx === 2) {
+          const videoCard = document.createElement('div');
+          videoCard.className = 'catalog-video reveal';
+          videoCard.innerHTML = `<video src="https://res.cloudinary.com/dhivad2xo/video/upload/v1775250375/video6_vertical_ug55im.mp4" autoplay muted loop playsinline></video>`;
+          grid.appendChild(videoCard);
+        }
       });
 
       applyFilters();
-      document.querySelectorAll('.product-card.reveal').forEach(el => revealObserver.observe(el));
+      document.querySelectorAll('.product-card.reveal, .catalog-video.reveal').forEach(el => revealObserver.observe(el));
     }
 
     /* ── Filtros ────────────────────────────────────────────────────── */
