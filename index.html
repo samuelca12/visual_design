@@ -614,7 +614,7 @@
     }
     .product-price-old {
       font-family: var(--font-cg);
-      font-size: 0.88rem;
+      font-size: 1.08rem;
       color: var(--gray);
       text-decoration: line-through;
     }
@@ -2443,9 +2443,7 @@
 
       document.getElementById('modalBrand').textContent = p.marca;
 
-      const titleParts = [capitalize(p.tipo)];
-      if (p.color) titleParts.push(capitalize(p.color));
-      document.getElementById('modalTitle').textContent = titleParts.join(' - ');
+      document.getElementById('modalTitle').textContent = capitalize(p.tipo);
 
       const descEl = document.getElementById('modalDesc');
       if (p.descripcion) {
