@@ -291,10 +291,12 @@
     .section-label {
       font-family: var(--font-ph);
       font-size: 0.82rem;
+      font-weight: 700;
       letter-spacing: 0.38em;
       text-transform: uppercase;
-      color: var(--red);
+      color: #cc2200;
       margin-bottom: 0.85rem;
+      text-shadow: 0 0 14px rgba(204, 34, 0, 0.4), 0 0 3px rgba(255, 255, 255, 0.12);
     }
     .section-title {
       font-family: var(--font-ph);
@@ -331,7 +333,7 @@
       padding: 0 5rem;
       margin-bottom: 0.5rem;
     }
-    #marcas .section-label { color: var(--red); }
+    #marcas .section-label { color: var(--red); text-shadow: none; }
     #marcas .section-title { color: var(--dark-gray); }
 
     .brands-gallery-wrap {
@@ -640,19 +642,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #1a1a1a;
+      background: #ffffff;
     }
     .product-img-placeholder img {
       max-width: 60%; max-height: 60%;
       object-fit: contain;
-      opacity: 0.7;
     }
     .product-img-placeholder span {
       font-family: var(--font-ph);
       font-size: 1.4rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--gray);
+      color: #222;
     }
 
     .product-color-dot {
@@ -1492,17 +1493,21 @@
       .nav-links {
         display: none;
         position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.97);
+        top: 0; left: 0;
+        width: 100vw;
+        height: 100vh;
+        min-height: 100dvh;
+        background: #000000;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 2.8rem;
-        z-index: 999;
+        z-index: 1050;
+        overflow-y: auto;
       }
       .nav-links.open { display: flex; }
       .nav-links a { font-size: 1.15rem; }
-      .hamburger { display: flex; }
+      .hamburger { display: flex; z-index: 1051; }
 
       .section { padding: 4.5rem 1.8rem; }
       #navbar { padding: 1rem 1.8rem; }
@@ -1780,7 +1785,6 @@
     <div class="optometry-content">
       <!-- Foto de optometría con marca de agua -->
       <div class="optometry-visual reveal">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775191948/optometria_hnfugo.jpg" alt="Servicio de Optometría">
         <div class="optometry-watermark">
           <img src="imagenes/logo_sin_fondo.png" alt="">
         </div>
@@ -2184,7 +2188,19 @@
       'roberto cavalli': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png',
       'swarovski': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png',
       'marc jacobs': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png',
-      'carrera': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775191262/carrerabrand_lhrlle.png'
+      'carrera': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775191262/carrerabrand_lhrlle.png',
+      'polaroid': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237950/670a5db3-15c8-4b3d-a608-066d7724f724.png',
+      'nike': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237912/cc111dc4-8786-4bed-805a-88be08aa574c.png',
+      'moschino': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237909/df4fb2a2-b063-4cd3-bdff-56bf63f62f09.png',
+      'levis': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237844/fe6eb4d3-d217-4d57-a090-d1e866311caf.png',
+      'lacoste': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237841/2fe162b2-2a23-426f-b1a5-fcd65ba6be89.png',
+      'boss hugo boss': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237808/afa71cbf-5d38-4a0b-9e04-4c36b20e838b.png',
+      'calvin klein': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237772/9f5fec4c-b8b5-44b1-bc1a-7afef6c408f4.png',
+      'police': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237699/46a87639-7186-4418-9d37-ad160a86f501.png',
+      'bebe': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237643/de34d07e-e3dd-43dd-857a-649f8cd82fed.png',
+      'banana republic': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237617/bb2f2a9c-8f08-43e9-9a40-b88cd7a554d8.png',
+      'anne klein': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237572/78f374c6-76e2-4862-b3fd-05f6c160643b.png',
+      'adensco': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237520/f160049b-b2ff-4a7d-aa12-366fb1037aff.png'
     };
 
     const COLOR_MAP = {
@@ -2441,7 +2457,6 @@
 
       document.getElementById('modalSpecs').innerHTML = `
         <span class="modal-spec"><strong>Categoria:</strong> ${capitalize(p.categoria)}</span>
-        <span class="modal-spec"><strong>Color:</strong> ${capitalize(p.color)}</span>
         <span class="modal-spec"><strong>Tipo de aro:</strong> ${capitalize(p.tipo)}</span>
       `;
 
@@ -2983,7 +2998,19 @@
       /* Roberto Cavalli */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png', text:'Roberto Cavalli' },
       /* Swarovski */       { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png', text:'Swarovski' },
       /* Marc Jacobs */     { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png', text:'Marc Jacobs' },
-      /* Carrera */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775191262/carrerabrand_lhrlle.png', text:'Carrera' }
+      /* Carrera */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775191262/carrerabrand_lhrlle.png', text:'Carrera' },
+      /* Polaroid */        { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237950/670a5db3-15c8-4b3d-a608-066d7724f724.png', text:'Polaroid' },
+      /* Nike */            { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237912/cc111dc4-8786-4bed-805a-88be08aa574c.png', text:'Nike' },
+      /* MOSCHINO */        { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237909/df4fb2a2-b063-4cd3-bdff-56bf63f62f09.png', text:'MOSCHINO' },
+      /* Levis */           { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237844/fe6eb4d3-d217-4d57-a090-d1e866311caf.png', text:'Levis' },
+      /* Lacoste */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237841/2fe162b2-2a23-426f-b1a5-fcd65ba6be89.png', text:'Lacoste' },
+      /* BOSS HUGO BOSS */  { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237808/afa71cbf-5d38-4a0b-9e04-4c36b20e838b.png', text:'BOSS HUGO BOSS' },
+      /* Calvin Klein */    { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237772/9f5fec4c-b8b5-44b1-bc1a-7afef6c408f4.png', text:'Calvin Klein' },
+      /* POLICE */          { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237699/46a87639-7186-4418-9d37-ad160a86f501.png', text:'POLICE' },
+      /* BEBE */            { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237643/de34d07e-e3dd-43dd-857a-649f8cd82fed.png', text:'BEBE' },
+      /* Banana Republic */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237617/bb2f2a9c-8f08-43e9-9a40-b88cd7a554d8.png', text:'Banana Republic' },
+      /* Anne Klein */      { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237572/78f374c6-76e2-4862-b3fd-05f6c160643b.png', text:'Anne Klein' },
+      /* ADENSCO */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237520/f160049b-b2ff-4a7d-aa12-366fb1037aff.png', text:'ADENSCO' }
     ];
 
     const el = document.getElementById('brandsGallery');
