@@ -727,42 +727,31 @@
     }
 
     /* Eye chart decorative */
-    .eye-chart-visual {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      height: 420px;
-      border: 1px solid rgba(154,0,0,0.2);
-      background: rgba(0,0,0,0.45);
+    .optometry-visual {
       position: relative;
+      height: 460px;
       overflow: hidden;
+      border: 1px solid rgba(154,0,0,0.2);
     }
-    .eye-chart-visual::before {
-      content: '';
+    .optometry-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .optometry-watermark {
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(154,0,0,0.07) 0%, transparent 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
     }
-    .chart-row {
-      font-family: var(--font-ph);
-      letter-spacing: 0.3em;
-      color: var(--white);
-      position: relative;
-      z-index: 1;
-    }
-    .chart-row:nth-child(1) { font-size: 3rem;   opacity: 1;    }
-    .chart-row:nth-child(2) { font-size: 2.3rem; opacity: 0.88; }
-    .chart-row:nth-child(3) { font-size: 1.7rem; opacity: 0.72; }
-    .chart-row:nth-child(4) { font-size: 1.25rem;opacity: 0.55; }
-    .chart-row:nth-child(5) { font-size: 0.95rem;opacity: 0.38; }
-    .chart-row:nth-child(6) { font-size: 0.72rem;opacity: 0.22; }
-    .chart-line {
-      width: 80%;
-      height: 1px;
-      background: rgba(154,0,0,0.25);
-      position: relative; z-index: 1;
+    .optometry-watermark img {
+      width: 55%;
+      height: auto;
+      object-fit: contain;
+      opacity: 0.12;
+      filter: brightness(10);
     }
 
     .optometry-features {
@@ -1193,7 +1182,7 @@
       .filters-panel { position: static; }
       .location-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .optometry-content { grid-template-columns: 1fr; }
-      .eye-chart-visual { height: 260px; }
+      .optometry-visual { height: 300px; }
       .footer-top { grid-template-columns: 1fr 1fr; }
     }
 
@@ -1567,19 +1556,12 @@
   ═══════════════════════════════════════════════════════════════════════ -->
   <section id="optometria" class="section">
     <div class="optometry-content">
-      <!-- Visual decorativa -->
-      <div class="eye-chart-visual reveal">
-        <div class="chart-row">E</div>
-        <div class="chart-line"></div>
-        <div class="chart-row">F&nbsp;&nbsp;P</div>
-        <div class="chart-line"></div>
-        <div class="chart-row">T&nbsp;&nbsp;O&nbsp;&nbsp;Z</div>
-        <div class="chart-line"></div>
-        <div class="chart-row">L&nbsp;&nbsp;P&nbsp;&nbsp;E&nbsp;&nbsp;D</div>
-        <div class="chart-line"></div>
-        <div class="chart-row">P&nbsp;&nbsp;E&nbsp;&nbsp;C&nbsp;&nbsp;F&nbsp;&nbsp;D</div>
-        <div class="chart-line"></div>
-        <div class="chart-row">E&nbsp;&nbsp;D&nbsp;&nbsp;F&nbsp;&nbsp;C&nbsp;&nbsp;Z&nbsp;&nbsp;P</div>
+      <!-- Foto de optometría con marca de agua -->
+      <div class="optometry-visual reveal">
+        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775191948/optometria_hnfugo.jpg" alt="Servicio de Optometría">
+        <div class="optometry-watermark">
+          <img src="imagenes/logo_sin_fondo.png" alt="">
+        </div>
       </div>
 
       <!-- Texto -->
