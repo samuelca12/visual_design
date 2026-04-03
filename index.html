@@ -2378,15 +2378,21 @@
 
         card.addEventListener('click', () => openProductModal(idx));
         grid.appendChild(card);
-
-        // Insert decorative video after the 3rd product
-        if (idx === 2) {
-          const videoCard = document.createElement('div');
-          videoCard.className = 'catalog-video reveal';
-          videoCard.innerHTML = `<video src="https://res.cloudinary.com/dhivad2xo/video/upload/v1775250375/video6_vertical_ug55im.mp4" autoplay muted loop playsinline></video>`;
-          grid.appendChild(videoCard);
-        }
       });
+
+      // Create decorative videos (inserted by applyFilters)
+      const vid1 = document.createElement('div');
+      vid1.className = 'catalog-video reveal';
+      vid1.id = 'catalogVideo1';
+      vid1.innerHTML = `<video src="https://res.cloudinary.com/dhivad2xo/video/upload/v1775250375/video6_vertical_ug55im.mp4" autoplay muted loop playsinline></video>`;
+
+      const vid2 = document.createElement('div');
+      vid2.className = 'catalog-video reveal';
+      vid2.id = 'catalogVideo2';
+      vid2.innerHTML = `<video src="https://res.cloudinary.com/dhivad2xo/video/upload/v1775251289/video7_vertical_bffv89.mp4" autoplay muted loop playsinline></video>`;
+
+      grid.appendChild(vid1);
+      grid.appendChild(vid2);
 
       applyFilters();
       document.querySelectorAll('.product-card.reveal, .catalog-video.reveal').forEach(el => revealObserver.observe(el));
@@ -2400,8 +2406,12 @@
       const type = document.getElementById('filterType').value;
       const oferta = document.getElementById('filterOferta').checked;
       const sort = document.getElementById('sortSelect').value;
+      const hasFilters = brand || categoria || color || type || oferta;
 
+      const grid = document.getElementById('productsGrid');
       const cards = [...document.querySelectorAll('.product-card')];
+      const vid1 = document.getElementById('catalogVideo1');
+      const vid2 = document.getElementById('catalogVideo2');
       const visible = [];
 
       cards.forEach(card => {
@@ -2417,13 +2427,30 @@
       });
 
       if (sort === 'asc' || sort === 'desc') {
-        const grid = document.getElementById('productsGrid');
         visible.sort((a, b) => {
           const diff = parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
           return sort === 'asc' ? diff : -diff;
         });
-        visible.forEach(card => grid.appendChild(card));
       }
+
+      // Remove videos from DOM, rebuild order
+      if (vid1) vid1.remove();
+      if (vid2) vid2.remove();
+
+      // Re-append visible cards in order, inserting videos at positions 3 and 7
+      visible.forEach((card, i) => {
+        grid.appendChild(card);
+        if (!hasFilters && vid1 && i === 2) grid.appendChild(vid1);
+        if (!hasFilters && vid2 && i === 6) grid.appendChild(vid2);
+      });
+
+      // If fewer than 7 visible and no filters, still append vid2 at end
+      if (!hasFilters && vid2 && visible.length > 3 && visible.length <= 6 && !vid2.parentNode) {
+        grid.appendChild(vid2);
+      }
+
+      if (vid1) vid1.style.display = hasFilters ? 'none' : '';
+      if (vid2) vid2.style.display = (hasFilters || visible.length < 4) ? 'none' : '';
 
       document.getElementById('productCount').textContent = visible.length;
       document.getElementById('noResults').style.display = visible.length === 0 ? 'block' : 'none';
