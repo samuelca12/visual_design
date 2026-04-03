@@ -322,46 +322,74 @@
        MARCAS
     ────────────────────────────────────────────────────────────────── */
     #marcas {
-      background: var(--dark-gray);
-      padding: 5.5rem 5rem;
+      background: var(--black);
+      padding: 5rem 0;
+      overflow: hidden;
     }
     .brands-header {
       text-align: center;
+      padding: 0 5rem;
       margin-bottom: 3.5rem;
     }
 
-    .brands-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1px;
-      background: rgba(141,137,121,0.12);
-      border: 1px solid rgba(141,137,121,0.12);
+    /* Franja blanca del carrusel */
+    .brands-marquee-strip {
+      background: #ffffff;
+      padding: 2.2rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .brands-marquee-strip::before,
+    .brands-marquee-strip::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .brands-marquee-strip::before {
+      left: 0;
+      background: linear-gradient(to right, #ffffff, transparent);
+    }
+    .brands-marquee-strip::after {
+      right: 0;
+      background: linear-gradient(to left, #ffffff, transparent);
     }
 
-    .brand-cell {
+    .brands-track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+    .brands-track:hover { animation-play-state: paused; }
+
+    .brand-logo-item {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 2.2rem 1.5rem;
-      background: var(--dark-gray);
-      transition: background 0.4s var(--ease);
+      padding: 0 3.5rem;
+      flex-shrink: 0;
     }
-    .brand-cell:hover {
-      background: rgba(0,0,0,0.25);
-    }
-
-    .brand-cell img {
-      max-height: 38px;
-      max-width: 140px;
+    .brand-logo-item img {
+      height: 44px;
+      max-width: 160px;
       width: auto;
       object-fit: contain;
-      filter: brightness(0) invert(0.7);
-      opacity: 0.65;
+      filter: grayscale(100%) contrast(0.8);
+      opacity: 0.75;
       transition: filter 0.4s, opacity 0.4s;
     }
-    .brand-cell:hover img {
-      filter: brightness(0) invert(1);
+    .brand-logo-item:hover img {
+      filter: grayscale(0%) contrast(1);
       opacity: 1;
+    }
+    .brand-logo-sep {
+      width: 1px;
+      height: 30px;
+      background: rgba(0,0,0,0.12);
+      flex-shrink: 0;
     }
 
     /* ──────────────────────────────────────────────────────────────────
@@ -1277,53 +1305,120 @@
       <h2 class="section-title">Diseñadores de talla mundial</h2>
     </div>
 
-    <div class="brands-grid reveal">
+    <div class="brands-marquee-strip">
+      <div class="brands-track">
 
-      <!-- David Beckham -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png" alt="David Beckham" loading="lazy">
+        <!-- ── Set 1 ── -->
+        <!-- David Beckham -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png" alt="David Beckham" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Pepe Jeans -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png" alt="Pepe Jeans" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Marchon -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png" alt="Marchon" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Adidas -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png" alt="Adidas" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- GUESS -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png" alt="GUESS" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Roberto Cavalli -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png" alt="Roberto Cavalli" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Swarovski -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png" alt="Swarovski" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Marc Jacobs -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png" alt="Marc Jacobs" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Carrera -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188302/41bf9cb0-15ce-4170-9156-c609c9264248.png" alt="Carrera" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- ── Set 2 — duplicado para loop sin corte ── -->
+        <!-- David Beckham -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png" alt="David Beckham" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Pepe Jeans -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png" alt="Pepe Jeans" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Marchon -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png" alt="Marchon" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Adidas -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png" alt="Adidas" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- GUESS -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png" alt="GUESS" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Roberto Cavalli -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png" alt="Roberto Cavalli" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Swarovski -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png" alt="Swarovski" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Marc Jacobs -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png" alt="Marc Jacobs" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
+        <!-- Carrera -->
+        <div class="brand-logo-item">
+          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188302/41bf9cb0-15ce-4170-9156-c609c9264248.png" alt="Carrera" loading="lazy">
+        </div>
+        <div class="brand-logo-sep"></div>
+
       </div>
-
-      <!-- Pepe Jeans -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png" alt="Pepe Jeans" loading="lazy">
-      </div>
-
-      <!-- Marchon -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png" alt="Marchon" loading="lazy">
-      </div>
-
-      <!-- Adidas -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png" alt="Adidas" loading="lazy">
-      </div>
-
-      <!-- GUESS -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png" alt="GUESS" loading="lazy">
-      </div>
-
-      <!-- Roberto Cavalli -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png" alt="Roberto Cavalli" loading="lazy">
-      </div>
-
-      <!-- Swarovski -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png" alt="Swarovski" loading="lazy">
-      </div>
-
-      <!-- Marc Jacobs -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png" alt="Marc Jacobs" loading="lazy">
-      </div>
-
-      <!-- Carrera -->
-      <div class="brand-cell">
-        <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188302/41bf9cb0-15ce-4170-9156-c609c9264248.png" alt="Carrera" loading="lazy">
-      </div>
-
     </div>
   </section>
 
