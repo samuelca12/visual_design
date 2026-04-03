@@ -2398,6 +2398,8 @@
 
       grid.appendChild(vid1);
       grid.appendChild(vid2);
+      window._catalogVid1 = vid1;
+      window._catalogVid2 = vid2;
 
       applyFilters();
       document.querySelectorAll('.product-card.reveal, .catalog-video.reveal').forEach(el => revealObserver.observe(el));
@@ -2415,8 +2417,8 @@
 
       const grid = document.getElementById('productsGrid');
       const cards = [...document.querySelectorAll('.product-card')];
-      const vid1 = document.getElementById('catalogVideo1');
-      const vid2 = document.getElementById('catalogVideo2');
+      const vid1 = window._catalogVid1;
+      const vid2 = window._catalogVid2;
       const visible = [];
 
       cards.forEach(card => {
@@ -2438,24 +2440,29 @@
         });
       }
 
-      // Remove videos from DOM, rebuild order
-      if (vid1) vid1.remove();
-      if (vid2) vid2.remove();
+      // Detach videos temporarily
+      if (vid1 && vid1.parentNode) vid1.parentNode.removeChild(vid1);
+      if (vid2 && vid2.parentNode) vid2.parentNode.removeChild(vid2);
 
       // Re-append visible cards in order, inserting videos at positions 3 and 7
       visible.forEach((card, i) => {
         grid.appendChild(card);
-        if (!hasFilters && vid1 && i === 2) grid.appendChild(vid1);
-        if (!hasFilters && vid2 && i === 6) grid.appendChild(vid2);
+        if (!hasFilters && vid1 && i === 2) { grid.appendChild(vid1); vid1.style.display = ''; }
+        if (!hasFilters && vid2 && i === 6) { grid.appendChild(vid2); vid2.style.display = ''; }
       });
 
-      // If fewer than 7 visible and no filters, still append vid2 at end
+      // If fewer than 7 but more than 3 and no filters, append vid2
       if (!hasFilters && vid2 && visible.length > 3 && visible.length <= 6 && !vid2.parentNode) {
         grid.appendChild(vid2);
+        vid2.style.display = '';
       }
 
-      if (vid1) vid1.style.display = hasFilters ? 'none' : '';
-      if (vid2) vid2.style.display = (hasFilters || visible.length < 4) ? 'none' : '';
+      // Hide videos when filters active
+      if (hasFilters) {
+        if (vid1) vid1.style.display = 'none';
+        if (vid2) vid2.style.display = 'none';
+      }
+      if (vid2 && visible.length < 4) vid2.style.display = 'none';
 
       document.getElementById('productCount').textContent = visible.length;
       document.getElementById('noResults').style.display = visible.length === 0 ? 'block' : 'none';
@@ -3039,27 +3046,27 @@
 
     /* ── Inicializar con las marcas ───────────────────────────────────── */
     const brandItems = [
-      /* David Beckham */   { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png', text:'David Beckham' },
-      /* Pepe Jeans */      { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png', text:'Pepe Jeans' },
-      /* Marchon */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png', text:'Marchon' },
-      /* Adidas */          { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png', text:'Adidas' },
-      /* GUESS */           { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png', text:'GUESS' },
-      /* Roberto Cavalli */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png', text:'Roberto Cavalli' },
-      /* Swarovski */       { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png', text:'Swarovski' },
-      /* Marc Jacobs */     { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png', text:'Marc Jacobs' },
-      /* Carrera */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775191262/carrerabrand_lhrlle.png', text:'Carrera' },
-      /* Polaroid */        { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237950/670a5db3-15c8-4b3d-a608-066d7724f724.png', text:'Polaroid' },
-      /* Nike */            { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237912/cc111dc4-8786-4bed-805a-88be08aa574c.png', text:'Nike' },
-      /* MOSCHINO */        { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237909/df4fb2a2-b063-4cd3-bdff-56bf63f62f09.png', text:'MOSCHINO' },
-      /* Levis */           { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237844/fe6eb4d3-d217-4d57-a090-d1e866311caf.png', text:'Levis' },
-      /* Lacoste */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237841/2fe162b2-2a23-426f-b1a5-fcd65ba6be89.png', text:'Lacoste' },
-      /* BOSS HUGO BOSS */  { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237808/afa71cbf-5d38-4a0b-9e04-4c36b20e838b.png', text:'BOSS HUGO BOSS' },
-      /* Calvin Klein */    { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237772/9f5fec4c-b8b5-44b1-bc1a-7afef6c408f4.png', text:'Calvin Klein' },
-      /* POLICE */          { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237699/46a87639-7186-4418-9d37-ad160a86f501.png', text:'POLICE' },
-      /* BEBE */            { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237643/de34d07e-e3dd-43dd-857a-649f8cd82fed.png', text:'BEBE' },
-      /* Banana Republic */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237617/bb2f2a9c-8f08-43e9-9a40-b88cd7a554d8.png', text:'Banana Republic' },
-      /* Anne Klein */      { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237572/78f374c6-76e2-4862-b3fd-05f6c160643b.png', text:'Anne Klein' },
-      /* ADENSCO */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775237520/f160049b-b2ff-4a7d-aa12-366fb1037aff.png', text:'ADENSCO' }
+      /* David Beckham */   { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png', text:'David Beckham' },
+      /* Pepe Jeans */      { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png', text:'Pepe Jeans' },
+      /* Marchon */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png', text:'Marchon' },
+      /* Adidas */          { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png', text:'Adidas' },
+      /* GUESS */           { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png', text:'GUESS' },
+      /* Roberto Cavalli */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png', text:'Roberto Cavalli' },
+      /* Swarovski */       { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png', text:'Swarovski' },
+      /* Marc Jacobs */     { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png', text:'Marc Jacobs' },
+      /* Carrera */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775191262/carrerabrand_lhrlle.png', text:'Carrera' },
+      /* Polaroid */        { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237950/670a5db3-15c8-4b3d-a608-066d7724f724.png', text:'Polaroid' },
+      /* Nike */            { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237912/cc111dc4-8786-4bed-805a-88be08aa574c.png', text:'Nike' },
+      /* MOSCHINO */        { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237909/df4fb2a2-b063-4cd3-bdff-56bf63f62f09.png', text:'MOSCHINO' },
+      /* Levis */           { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237844/fe6eb4d3-d217-4d57-a090-d1e866311caf.png', text:'Levis' },
+      /* Lacoste */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237841/2fe162b2-2a23-426f-b1a5-fcd65ba6be89.png', text:'Lacoste' },
+      /* BOSS HUGO BOSS */  { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237808/afa71cbf-5d38-4a0b-9e04-4c36b20e838b.png', text:'BOSS HUGO BOSS' },
+      /* Calvin Klein */    { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237772/9f5fec4c-b8b5-44b1-bc1a-7afef6c408f4.png', text:'Calvin Klein' },
+      /* POLICE */          { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237699/46a87639-7186-4418-9d37-ad160a86f501.png', text:'POLICE' },
+      /* BEBE */            { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237643/de34d07e-e3dd-43dd-857a-649f8cd82fed.png', text:'BEBE' },
+      /* Banana Republic */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237617/bb2f2a9c-8f08-43e9-9a40-b88cd7a554d8.png', text:'Banana Republic' },
+      /* Anne Klein */      { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237572/78f374c6-76e2-4862-b3fd-05f6c160643b.png', text:'Anne Klein' },
+      /* ADENSCO */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/q_auto,w_400/v1775237520/f160049b-b2ff-4a7d-aa12-366fb1037aff.png', text:'ADENSCO' }
     ];
 
     const el = document.getElementById('brandsGallery');
