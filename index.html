@@ -2182,6 +2182,8 @@
               } else {
                 scale = vec2((imgAspect / planeAspect), 1.0);
               }
+              // Padding interno para que el logo no toque los bordes
+              scale *= 0.72;
               vec2 uv = (vUv - 0.5) / scale + 0.5;
               // Fondo blanco para areas fuera de la imagen o transparencia
               vec3 bg = vec3(1.0);
