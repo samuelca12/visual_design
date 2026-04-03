@@ -319,78 +319,34 @@
     }
 
     /* ──────────────────────────────────────────────────────────────────
-       MARCAS
+       MARCAS — Circular Gallery (OGL)
     ────────────────────────────────────────────────────────────────── */
     #marcas {
-      background: var(--black);
-      padding: 5rem 0;
+      background: #ffffff;
+      padding: 4.5rem 0 0;
       overflow: hidden;
     }
     .brands-header {
       text-align: center;
       padding: 0 5rem;
-      margin-bottom: 3.5rem;
+      margin-bottom: 0.5rem;
     }
+    #marcas .section-label { color: var(--red); }
+    #marcas .section-title { color: var(--dark-gray); }
 
-    /* Franja blanca del carrusel */
-    .brands-marquee-strip {
-      background: #ffffff;
-      padding: 2.2rem 0;
-      overflow: hidden;
+    .brands-gallery-wrap {
+      width: 100%;
+      height: 550px;
       position: relative;
     }
-    .brands-marquee-strip::before,
-    .brands-marquee-strip::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 120px;
-      z-index: 2;
-      pointer-events: none;
+    .circular-gallery {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      cursor: grab;
     }
-    .brands-marquee-strip::before {
-      left: 0;
-      background: linear-gradient(to right, #ffffff, transparent);
-    }
-    .brands-marquee-strip::after {
-      right: 0;
-      background: linear-gradient(to left, #ffffff, transparent);
-    }
-
-    .brands-track {
-      display: flex;
-      align-items: center;
-      width: max-content;
-      animation: marquee 30s linear infinite;
-    }
-    .brands-track:hover { animation-play-state: paused; }
-
-    .brand-logo-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 3.5rem;
-      flex-shrink: 0;
-    }
-    .brand-logo-item img {
-      height: 44px;
-      max-width: 160px;
-      width: auto;
-      object-fit: contain;
-      filter: grayscale(100%) contrast(0.8);
-      opacity: 0.75;
-      transition: filter 0.4s, opacity 0.4s;
-    }
-    .brand-logo-item:hover img {
-      filter: grayscale(0%) contrast(1);
-      opacity: 1;
-    }
-    .brand-logo-sep {
-      width: 1px;
-      height: 30px;
-      background: rgba(0,0,0,0.12);
-      flex-shrink: 0;
-    }
+    .circular-gallery:active { cursor: grabbing; }
+    .circular-gallery canvas { display: block; }
 
     /* ──────────────────────────────────────────────────────────────────
        CATÁLOGO
@@ -1229,7 +1185,9 @@
       #navbar { padding: 1rem 1.8rem; }
       #navbar.scrolled { padding: 0.75rem 1.8rem; }
       #footer { padding: 3.5rem 1.8rem 2rem; }
-      #marcas { padding: 4rem 1.8rem; }
+      #marcas { padding: 3.5rem 0 0; }
+      .brands-header { padding: 0 1.8rem; }
+      .brands-gallery-wrap { height: 420px; }
 
       .catalog-layout { grid-template-columns: 1fr; }
       .filters-panel { position: static; }
@@ -1244,7 +1202,9 @@
       #navbar { padding: 0.9rem 1.2rem; }
       #navbar.scrolled { padding: 0.7rem 1.2rem; }
       #footer { padding: 3rem 1.2rem 1.5rem; }
-      #marcas { padding: 3rem 1.2rem; }
+      #marcas { padding: 2.5rem 0 0; }
+      .brands-header { padding: 0 1.2rem; }
+      .brands-gallery-wrap { height: 350px; }
       .footer-top { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 0.7rem; text-align: center; }
       .hero-actions { flex-direction: column; align-items: center; }
@@ -1304,122 +1264,7 @@
       <p class="section-label">Marcas exclusivas</p>
       <h2 class="section-title">Diseñadores de talla mundial</h2>
     </div>
-
-    <div class="brands-marquee-strip">
-      <div class="brands-track">
-
-        <!-- ── Set 1 ── -->
-        <!-- David Beckham -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png" alt="David Beckham" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Pepe Jeans -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png" alt="Pepe Jeans" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Marchon -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png" alt="Marchon" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Adidas -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png" alt="Adidas" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- GUESS -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png" alt="GUESS" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Roberto Cavalli -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png" alt="Roberto Cavalli" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Swarovski -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png" alt="Swarovski" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Marc Jacobs -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png" alt="Marc Jacobs" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Carrera -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188302/41bf9cb0-15ce-4170-9156-c609c9264248.png" alt="Carrera" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- ── Set 2 — duplicado para loop sin corte ── -->
-        <!-- David Beckham -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png" alt="David Beckham" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Pepe Jeans -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png" alt="Pepe Jeans" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Marchon -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png" alt="Marchon" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Adidas -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png" alt="Adidas" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- GUESS -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png" alt="GUESS" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Roberto Cavalli -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png" alt="Roberto Cavalli" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Swarovski -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png" alt="Swarovski" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Marc Jacobs -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png" alt="Marc Jacobs" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-        <!-- Carrera -->
-        <div class="brand-logo-item">
-          <img src="https://res.cloudinary.com/dhivad2xo/image/upload/v1775188302/41bf9cb0-15ce-4170-9156-c609c9264248.png" alt="Carrera" loading="lazy">
-        </div>
-        <div class="brand-logo-sep"></div>
-
-      </div>
-    </div>
+    <div class="brands-gallery-wrap" id="brandsGallery"></div>
   </section>
 
   <!-- ════════════════════════════════════════════════════════════════════
@@ -2236,6 +2081,288 @@
     document.querySelectorAll('.gender-cb').forEach(cb => {
       cb.addEventListener('change', applyFilters);
     });
+  </script>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       CIRCULAR GALLERY — OGL (Marcas)
+  ═══════════════════════════════════════════════════════════════════════ -->
+  <script type="module">
+    import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.8/dist/ogl.mjs';
+
+    /* ── Utilidades ──────────────────────────────────────────────────── */
+    function debounce(fn, ms) {
+      let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn.apply(null, a), ms); };
+    }
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function createTextTexture(gl, text, font, color) {
+      const c = document.createElement('canvas');
+      const ctx = c.getContext('2d');
+      ctx.font = font;
+      const m = ctx.measureText(text);
+      c.width = Math.ceil(m.width) + 20;
+      c.height = Math.ceil(parseInt(font, 10) * 1.2) + 20;
+      ctx.font = font;
+      ctx.fillStyle = color;
+      ctx.textBaseline = 'middle';
+      ctx.textAlign = 'center';
+      ctx.clearRect(0, 0, c.width, c.height);
+      ctx.fillText(text, c.width / 2, c.height / 2);
+      const tex = new Texture(gl, { generateMipmaps: false });
+      tex.image = c;
+      return { texture: tex, width: c.width, height: c.height };
+    }
+
+    /* ── Title (texto bajo cada tarjeta) ─────────────────────────────── */
+    class Title {
+      constructor({ gl, plane, renderer, text, textColor, font }) {
+        const { texture, width, height } = createTextTexture(gl, text, font || 'bold 28px Philosopher', textColor);
+        const geometry = new Plane(gl);
+        const program = new Program(gl, {
+          vertex: `
+            attribute vec3 position; attribute vec2 uv;
+            uniform mat4 modelViewMatrix, projectionMatrix;
+            varying vec2 vUv;
+            void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+          fragment: `
+            precision highp float;
+            uniform sampler2D tMap; varying vec2 vUv;
+            void main() { vec4 c = texture2D(tMap,vUv); if(c.a<0.1) discard; gl_FragColor = c; }`,
+          uniforms: { tMap: { value: texture } },
+          transparent: true
+        });
+        this.mesh = new Mesh(gl, { geometry, program });
+        const aspect = width / height;
+        const th = plane.scale.y * 0.15;
+        this.mesh.scale.set(th * aspect, th, 1);
+        this.mesh.position.y = -plane.scale.y * 0.5 - th * 0.5 - 0.05;
+        this.mesh.setParent(plane);
+      }
+    }
+
+    /* ── Media (cada tarjeta) ────────────────────────────────────────── */
+    class Media {
+      constructor(o) {
+        Object.assign(this, o);
+        this.extra = 0;
+        this._createShader();
+        this._createMesh();
+        this._createTitle();
+        this.onResize();
+      }
+      _createShader() {
+        const texture = new Texture(this.gl, { generateMipmaps: true });
+        this.program = new Program(this.gl, {
+          depthTest: false, depthWrite: false,
+          vertex: `
+            precision highp float;
+            attribute vec3 position; attribute vec2 uv;
+            uniform mat4 modelViewMatrix, projectionMatrix;
+            uniform float uTime, uSpeed;
+            varying vec2 vUv;
+            void main(){
+              vUv=uv; vec3 p=position;
+              p.z=(sin(p.x*4.0+uTime)*1.5+cos(p.y*2.0+uTime)*1.5)*(0.1+uSpeed*0.5);
+              gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);
+            }`,
+          fragment: `
+            precision highp float;
+            uniform vec2 uImageSizes, uPlaneSizes;
+            uniform sampler2D tMap;
+            uniform float uBorderRadius;
+            varying vec2 vUv;
+            float roundedBoxSDF(vec2 p,vec2 b,float r){vec2 d=abs(p)-b;return length(max(d,vec2(0.)))+min(max(d.x,d.y),0.)-r;}
+            void main(){
+              vec2 ratio=vec2(min((uPlaneSizes.x/uPlaneSizes.y)/(uImageSizes.x/uImageSizes.y),1.),min((uPlaneSizes.y/uPlaneSizes.x)/(uImageSizes.y/uImageSizes.x),1.));
+              vec2 uv=vec2(vUv.x*ratio.x+(1.-ratio.x)*.5,vUv.y*ratio.y+(1.-ratio.y)*.5);
+              vec4 color=texture2D(tMap,uv);
+              float d=roundedBoxSDF(vUv-.5,vec2(.5-uBorderRadius),uBorderRadius);
+              float alpha=1.-smoothstep(-.002,.002,d);
+              gl_FragColor=vec4(color.rgb,alpha);
+            }`,
+          uniforms: {
+            tMap:{ value: texture },
+            uPlaneSizes:{ value:[0,0] },
+            uImageSizes:{ value:[0,0] },
+            uSpeed:{ value:0 }, uTime:{ value:100*Math.random() },
+            uBorderRadius:{ value: this.borderRadius }
+          },
+          transparent: true
+        });
+        const img = new Image(); img.crossOrigin='anonymous'; img.src=this.image;
+        img.onload = () => {
+          texture.image=img;
+          this.program.uniforms.uImageSizes.value=[img.naturalWidth,img.naturalHeight];
+        };
+      }
+      _createMesh() {
+        this.plane = new Mesh(this.gl, { geometry:this.geometry, program:this.program });
+        this.plane.setParent(this.scene);
+      }
+      _createTitle() {
+        new Title({ gl:this.gl, plane:this.plane, renderer:this.renderer, text:this.text, textColor:this.textColor, font:this.font });
+      }
+      update(scroll, direction) {
+        this.plane.position.x = this.x - scroll.current - this.extra;
+        const x = this.plane.position.x;
+        const H = this.viewport.width / 2;
+        if (this.bend === 0) {
+          this.plane.position.y = 0; this.plane.rotation.z = 0;
+        } else {
+          const B = Math.abs(this.bend);
+          const R = (H*H + B*B)/(2*B);
+          const ex = Math.min(Math.abs(x), H);
+          const arc = R - Math.sqrt(R*R - ex*ex);
+          this.plane.position.y = this.bend > 0 ? -arc : arc;
+          this.plane.rotation.z = (this.bend > 0 ? -1 : 1) * Math.sign(x) * Math.asin(ex/R);
+        }
+        this.program.uniforms.uTime.value += 0.04;
+        this.program.uniforms.uSpeed.value = scroll.current - scroll.last;
+        const po = this.plane.scale.x/2, vo = this.viewport.width/2;
+        if (direction==='right' && this.plane.position.x+po < -vo) { this.extra -= this.widthTotal; }
+        if (direction==='left'  && this.plane.position.x-po >  vo) { this.extra += this.widthTotal; }
+      }
+      onResize({ screen, viewport }={}) {
+        if(screen) this.screen=screen;
+        if(viewport) this.viewport=viewport;
+        this.scale = this.screen.height/1500;
+        this.plane.scale.y = (this.viewport.height*(900*this.scale))/this.screen.height;
+        this.plane.scale.x = (this.viewport.width*(700*this.scale))/this.screen.width;
+        this.program.uniforms.uPlaneSizes.value=[this.plane.scale.x,this.plane.scale.y];
+        this.padding = 2;
+        this.width = this.plane.scale.x + this.padding;
+        this.widthTotal = this.width * this.length;
+        this.x = this.width * this.index;
+      }
+    }
+
+    /* ── App principal ───────────────────────────────────────────────── */
+    class BrandsGallery {
+      constructor(container, { items, bend=4, textColor='#3f3e3b', borderRadius=0.16, font='bold 26px Philosopher', scrollSpeed=2, scrollEase=0.06 }={}) {
+        this.container = container;
+        this.scrollSpeed = scrollSpeed;
+        this.scroll = { ease:scrollEase, current:0, target:0, last:0 };
+        this._onCheckDb = debounce(()=>this._onCheck(), 200);
+        this._createRenderer();
+        this._createCamera();
+        this.scene = new Transform();
+        this._onResize();
+        this.geo = new Plane(this.gl, { heightSegments:50, widthSegments:100 });
+        const all = items.concat(items);
+        this.medias = all.map((d,i) => new Media({
+          geometry:this.geo, gl:this.gl, image:d.image, index:i,
+          length:all.length, renderer:this.renderer, scene:this.scene,
+          screen:this.screen, text:d.text, viewport:this.viewport,
+          bend, textColor, borderRadius, font
+        }));
+        this._update();
+        this._listen();
+      }
+      _createRenderer() {
+        this.renderer = new Renderer({ alpha:true, antialias:true, dpr:Math.min(devicePixelRatio||1,2) });
+        this.gl = this.renderer.gl;
+        this.gl.clearColor(0,0,0,0);
+        this.container.appendChild(this.gl.canvas);
+      }
+      _createCamera() {
+        this.camera = new Camera(this.gl);
+        this.camera.fov = 45;
+        this.camera.position.z = 20;
+      }
+      _onResize() {
+        this.screen = { width:this.container.clientWidth, height:this.container.clientHeight };
+        this.renderer.setSize(this.screen.width, this.screen.height);
+        this.camera.perspective({ aspect:this.screen.width/this.screen.height });
+        const fov = (this.camera.fov*Math.PI)/180;
+        const h = 2*Math.tan(fov/2)*this.camera.position.z;
+        this.viewport = { width:h*this.camera.aspect, height:h };
+        if(this.medias) this.medias.forEach(m=>m.onResize({ screen:this.screen, viewport:this.viewport }));
+      }
+      _onCheck() {
+        if(!this.medias||!this.medias[0]) return;
+        const w=this.medias[0].width;
+        const i=Math.round(Math.abs(this.scroll.target)/w);
+        this.scroll.target = this.scroll.target<0 ? -(w*i) : w*i;
+      }
+      _update() {
+        this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+        const dir = this.scroll.current>this.scroll.last ? 'right':'left';
+        if(this.medias) this.medias.forEach(m=>m.update(this.scroll, dir));
+        this.renderer.render({ scene:this.scene, camera:this.camera });
+        this.scroll.last = this.scroll.current;
+        this.raf = requestAnimationFrame(()=>this._update());
+      }
+      _listen() {
+        const c = this.container;
+        this._bResize = ()=>this._onResize();
+        this._bWheel = (e)=>{
+          e.preventDefault();
+          this.scroll.target += (e.deltaY>0?this.scrollSpeed:-this.scrollSpeed)*0.2;
+          this._onCheckDb();
+        };
+        this._bDown = (e)=>{
+          this.isDown=true;
+          this.scroll.position=this.scroll.current;
+          this.start=e.touches?e.touches[0].clientX:e.clientX;
+        };
+        this._bMove = (e)=>{
+          if(!this.isDown) return;
+          const x=e.touches?e.touches[0].clientX:e.clientX;
+          this.scroll.target=this.scroll.position+(this.start-x)*(this.scrollSpeed*0.025);
+        };
+        this._bUp = ()=>{ this.isDown=false; this._onCheck(); };
+
+        window.addEventListener('resize', this._bResize);
+        c.addEventListener('wheel', this._bWheel, { passive:false });
+        c.addEventListener('mousedown', this._bDown);
+        window.addEventListener('mousemove', this._bMove);
+        window.addEventListener('mouseup', this._bUp);
+        c.addEventListener('touchstart', this._bDown, { passive:true });
+        c.addEventListener('touchmove', this._bMove, { passive:true });
+        window.addEventListener('touchend', this._bUp);
+      }
+      destroy() {
+        cancelAnimationFrame(this.raf);
+        window.removeEventListener('resize', this._bResize);
+        this.container.removeEventListener('wheel', this._bWheel);
+        this.container.removeEventListener('mousedown', this._bDown);
+        window.removeEventListener('mousemove', this._bMove);
+        window.removeEventListener('mouseup', this._bUp);
+        this.container.removeEventListener('touchstart', this._bDown);
+        this.container.removeEventListener('touchmove', this._bMove);
+        window.removeEventListener('touchend', this._bUp);
+        if(this.gl.canvas.parentNode) this.gl.canvas.parentNode.removeChild(this.gl.canvas);
+      }
+    }
+
+    /* ── Inicializar con las marcas ───────────────────────────────────── */
+    const brandItems = [
+      /* David Beckham */   { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png', text:'David Beckham' },
+      /* Pepe Jeans */      { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png', text:'Pepe Jeans' },
+      /* Marchon */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png', text:'Marchon' },
+      /* Adidas */          { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png', text:'Adidas' },
+      /* GUESS */           { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png', text:'GUESS' },
+      /* Roberto Cavalli */ { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png', text:'Roberto Cavalli' },
+      /* Swarovski */       { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png', text:'Swarovski' },
+      /* Marc Jacobs */     { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png', text:'Marc Jacobs' },
+      /* Carrera */         { image:'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188302/41bf9cb0-15ce-4170-9156-c609c9264248.png', text:'Carrera' }
+    ];
+
+    const el = document.getElementById('brandsGallery');
+    if (el) {
+      const div = document.createElement('div');
+      div.className = 'circular-gallery';
+      el.appendChild(div);
+      new BrandsGallery(div, {
+        items: brandItems,
+        bend: 4,
+        textColor: '#3f3e3b',
+        borderRadius: 0.16,
+        font: 'bold 26px Philosopher',
+        scrollSpeed: 2,
+        scrollEase: 0.06
+      });
+    }
   </script>
 
 </body>
