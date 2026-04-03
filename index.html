@@ -2362,7 +2362,7 @@
           <div class="product-body">
             <p class="product-brand">${product.marca}</p>
             <p class="product-type">${capitalize(product.tipo)}</p>
-            <span class="product-gender-tag">${colorDot}${capitalize(product.color)} &middot; ${capitalize(product.categoria)}</span>
+            <span class="product-gender-tag">${capitalize(product.categoria)}</span>
             <div class="product-prices">${pricesHTML}</div>
             <button class="product-wa-btn" onclick="event.stopPropagation(); cotizarWA('${product.marca} - ${capitalize(product.tipo)}', '${formatPrice(displayPrice)}')">
               <i class="fab fa-whatsapp"></i> Cotizar
@@ -2478,11 +2478,15 @@
       const prevNav = document.getElementById('modalGalleryPrev');
       const nextNav = document.getElementById('modalGalleryNext');
 
+      const hasRealImages = (p.imagen_url || '').trim().length > 0;
+      gallery.style.background = hasRealImages ? '#0a0a0a' : '#ffffff';
+
       if (images.length > 0) {
         images.forEach((url, i) => {
           const img = document.createElement('img');
           img.src = url;
           img.alt = `${p.marca} foto ${i + 1}`;
+          if (!hasRealImages) { img.style.objectFit = 'contain'; img.style.padding = '2rem'; }
           if (i === 0) img.classList.add('active');
           gallery.insertBefore(img, prevNav);
 
