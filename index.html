@@ -2447,14 +2447,15 @@
       // Re-append visible cards in order, inserting videos at positions 3 and 7
       visible.forEach((card, i) => {
         grid.appendChild(card);
-        if (!hasFilters && vid1 && i === 2) { grid.appendChild(vid1); vid1.style.display = ''; }
-        if (!hasFilters && vid2 && i === 6) { grid.appendChild(vid2); vid2.style.display = ''; }
+        if (!hasFilters && vid1 && i === 2) { grid.appendChild(vid1); vid1.style.display = ''; vid1.querySelector('video').play(); }
+        if (!hasFilters && vid2 && i === 6) { grid.appendChild(vid2); vid2.style.display = ''; vid2.querySelector('video').play(); }
       });
 
       // If fewer than 7 but more than 3 and no filters, append vid2
       if (!hasFilters && vid2 && visible.length > 3 && visible.length <= 6 && !vid2.parentNode) {
         grid.appendChild(vid2);
         vid2.style.display = '';
+        vid2.querySelector('video').play();
       }
 
       // Hide videos when filters active
