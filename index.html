@@ -526,6 +526,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      cursor: pointer;
       transition: border-color 0.4s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
     }
     .product-card:hover {
@@ -634,6 +635,55 @@
     .product-wa-btn:hover { background: var(--red); color: var(--white); }
     .product-wa-btn i { font-size: 0.9rem; }
 
+    .product-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1a1a;
+    }
+    .product-img-placeholder img {
+      max-width: 60%; max-height: 60%;
+      object-fit: contain;
+      opacity: 0.7;
+    }
+    .product-img-placeholder span {
+      font-family: var(--font-ph);
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .product-color-dot {
+      display: inline-block;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      margin-right: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .catalog-loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 5rem 2rem;
+    }
+    .catalog-loading i {
+      font-size: 2.5rem;
+      color: var(--red);
+      animation: spin 1s linear infinite;
+      display: block;
+      margin-bottom: 1.2rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .catalog-loading p {
+      font-family: var(--font-cg);
+      font-size: 1.1rem;
+      color: var(--gray);
+      font-style: italic;
+    }
+
     .no-results {
       grid-column: 1 / -1;
       text-align: center;
@@ -641,6 +691,229 @@
       display: none;
     }
     .no-results i { font-size: 3rem; color: var(--gray); display: block; margin-bottom: 1rem; }
+
+    /* ── Product Detail Modal ── */
+    .product-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-y: auto;
+    }
+    .product-modal-overlay.open { display: flex; }
+
+    .product-modal {
+      background: var(--surface);
+      border: 1px solid rgba(141,137,121,0.15);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalIn 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.2rem; right: 1.2rem;
+      width: 40px; height: 40px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(141,137,121,0.2);
+      color: var(--light-gray);
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.3s, color 0.3s;
+    }
+    .modal-close:hover { background: var(--red); color: var(--white); }
+
+    .modal-gallery {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #0a0a0a;
+      overflow: hidden;
+    }
+    .modal-gallery img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      display: none;
+    }
+    .modal-gallery img.active { display: block; }
+
+    .modal-gallery-nav {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 38px; height: 38px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.3s;
+    }
+    .modal-gallery-nav:hover { background: rgba(154,0,0,0.7); }
+    .modal-gallery-nav.prev { left: 0.8rem; }
+    .modal-gallery-nav.next { right: 0.8rem; }
+
+    .modal-thumbs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      background: #0a0a0a;
+      overflow-x: auto;
+    }
+    .modal-thumbs img {
+      width: 60px; height: 45px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.5;
+      border: 2px solid transparent;
+      transition: opacity 0.3s, border-color 0.3s;
+    }
+    .modal-thumbs img.active { opacity: 1; border-color: var(--red); }
+
+    .modal-body {
+      padding: 2rem 2.2rem;
+    }
+    .modal-brand {
+      font-family: var(--font-ph);
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.4rem;
+    }
+    .modal-title {
+      font-family: var(--font-ph);
+      font-size: 1.6rem;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+    .modal-desc {
+      font-family: var(--font-cg);
+      font-size: 1.1rem;
+      color: var(--light-gray);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 1.2rem;
+    }
+    .modal-specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 2rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(141,137,121,0.15);
+    }
+    .modal-spec {
+      font-family: var(--font-cg);
+      font-size: 0.95rem;
+      color: var(--gray);
+    }
+    .modal-spec strong {
+      color: var(--light-gray);
+      font-weight: 400;
+    }
+
+    .modal-prices {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .modal-price-main {
+      font-family: var(--font-ph);
+      font-size: 1.8rem;
+      color: var(--white);
+    }
+    .modal-price-old {
+      font-family: var(--font-cg);
+      font-size: 1.1rem;
+      color: var(--gray);
+      text-decoration: line-through;
+    }
+    .modal-offer-tag {
+      font-family: var(--font-ph);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--red);
+      color: var(--white);
+      padding: 0.25rem 0.7rem;
+    }
+    .modal-note {
+      font-family: var(--font-cg);
+      font-size: 0.92rem;
+      color: var(--gray);
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .modal-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--red);
+      border: none;
+      color: var(--white);
+      font-family: var(--font-ph);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.8rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .modal-wa-btn:hover { background: var(--red-hover); }
+    .modal-wa-btn .fa-whatsapp { color: #25D366; }
+    .modal-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      border: 1px solid rgba(141,137,121,0.35);
+      color: var(--light-gray);
+      font-family: var(--font-ph);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 0.9rem 1.8rem;
+      cursor: pointer;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .modal-back-btn:hover { border-color: var(--light-gray); color: var(--white); }
+
+    @media (max-width: 768px) {
+      .product-modal { max-height: 95vh; }
+      .modal-body { padding: 1.5rem; }
+      .modal-gallery { aspect-ratio: 4 / 3; }
+      .modal-actions { flex-direction: column; }
+      .modal-wa-btn, .modal-back-btn { width: 100%; justify-content: center; }
+    }
     .no-results p { font-family: var(--font-ph); color: var(--gray); font-size: 1rem; }
 
     /* ──────────────────────────────────────────────────────────────────
@@ -1343,33 +1616,28 @@
           <label class="filter-group-label">Marca</label>
           <select class="filter-select" id="filterBrand">
             <option value="">Todas las marcas</option>
-            <option value="Ray-Ban">Ray-Ban</option>
-            <option value="Oakley">Oakley</option>
-            <option value="Prada">Prada</option>
-            <option value="Silhouette">Silhouette</option>
-            <option value="Carrera">Carrera</option>
           </select>
         </div>
 
         <div class="filter-group">
-          <label class="filter-group-label">Tipo de lente</label>
+          <label class="filter-group-label">Categoria</label>
+          <select class="filter-select" id="filterCategoria">
+            <option value="">Todas las categorias</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Color</label>
+          <select class="filter-select" id="filterColor">
+            <option value="">Todos los colores</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Tipo de aro</label>
           <select class="filter-select" id="filterType">
             <option value="">Todos los tipos</option>
-            <option value="sol">Lentes de Sol</option>
-            <option value="deportivos">Deportivos</option>
-            <option value="normales">Armazón Normal</option>
           </select>
-        </div>
-
-
-        <div class="filter-group">
-          <label class="filter-group-label">Género</label>
-          <div class="checkbox-group">
-            <label class="cb-label"><input type="checkbox" class="gender-cb" value="hombre"> Hombre</label>
-            <label class="cb-label"><input type="checkbox" class="gender-cb" value="mujer"> Mujer</label>
-            <label class="cb-label"><input type="checkbox" class="gender-cb" value="ninos"> Niños</label>
-            <label class="cb-label"><input type="checkbox" class="gender-cb" value="unisex"> Unisex</label>
-          </div>
         </div>
 
         <div class="filter-group">
@@ -1387,7 +1655,7 @@
       <!-- ── PRODUCTOS ── -->
       <div>
         <div class="sort-bar reveal">
-          <span>Mostrando <b id="productCount">5</b> productos</span>
+          <span>Mostrando <b id="productCount">0</b> productos</span>
           <select class="sort-select" id="sortSelect" onchange="applyFilters()">
             <option value="">Ordenar por</option>
             <option value="asc">Precio: Menor a Mayor</option>
@@ -1396,156 +1664,49 @@
         </div>
 
         <div class="products-grid" id="productsGrid">
-
-          <!-- ─ Producto 1: Ray-Ban Aviator Classic ─ -->
-          <article class="product-card reveal"
-            data-brand="Ray-Ban"
-            data-type="sol"
-            data-price="97500"
-            data-gender="unisex"
-            data-oferta="false">
-            <div class="product-img-wrap">
-              <img
-                src="https://placehold.co/480x360/141414/d9d9dc?text=Ray-Ban+Aviator"
-                alt="Ray-Ban Aviator Classic"
-                loading="lazy">
-            </div>
-            <div class="product-body">
-              <p class="product-brand">Ray-Ban</p>
-              <h3 class="product-name">Aviator Classic</h3>
-              <p class="product-type">Lentes de Sol</p>
-              <span class="product-gender-tag">Unisex</span>
-              <div class="product-prices">
-                <span class="product-price">₡97.500</span>
-              </div>
-              <button class="product-wa-btn" onclick="cotizarWA('Ray-Ban Aviator Classic', '₡97.500')">
-                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
-              </button>
-            </div>
-          </article>
-
-          <!-- ─ Producto 2: Oakley Holbrook Performance ─ -->
-          <article class="product-card reveal reveal-delay-1"
-            data-brand="Oakley"
-            data-type="deportivos"
-            data-price="115000"
-            data-gender="unisex"
-            data-oferta="true">
-            <div class="product-img-wrap">
-              <img
-                src="https://placehold.co/480x360/141414/d9d9dc?text=Oakley+Holbrook"
-                alt="Oakley Holbrook Performance"
-                loading="lazy">
-              <span class="product-badge">Oferta</span>
-            </div>
-            <div class="product-body">
-              <p class="product-brand">Oakley</p>
-              <h3 class="product-name">Holbrook Performance</h3>
-              <p class="product-type">Deportivos</p>
-              <span class="product-gender-tag">Unisex</span>
-              <div class="product-prices">
-                <span class="product-price">₡115.000</span>
-                <span class="product-price-old">₡145.000</span>
-              </div>
-              <button class="product-wa-btn" onclick="cotizarWA('Oakley Holbrook Performance', '₡115.000 (Oferta)')">
-                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
-              </button>
-            </div>
-          </article>
-
-          <!-- ─ Producto 3: Prada Catwalk ─ -->
-          <article class="product-card reveal reveal-delay-2"
-            data-brand="Prada"
-            data-type="sol"
-            data-price="195000"
-            data-gender="mujer"
-            data-oferta="false">
-            <div class="product-img-wrap">
-              <img
-                src="https://placehold.co/480x360/141414/d9d9dc?text=Prada+Catwalk"
-                alt="Prada Catwalk"
-                loading="lazy">
-            </div>
-            <div class="product-body">
-              <p class="product-brand">Prada</p>
-              <h3 class="product-name">Catwalk SPR 07YS</h3>
-              <p class="product-type">Lentes de Sol</p>
-              <span class="product-gender-tag">Mujer</span>
-              <div class="product-prices">
-                <span class="product-price">₡195.000</span>
-              </div>
-              <button class="product-wa-btn" onclick="cotizarWA('Prada Catwalk SPR 07YS', '₡195.000')">
-                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
-              </button>
-            </div>
-          </article>
-
-          <!-- ─ Producto 4: Silhouette Titan ─ -->
-          <article class="product-card reveal"
-            data-brand="Silhouette"
-            data-type="normales"
-            data-price="138000"
-            data-gender="unisex"
-            data-oferta="false">
-            <div class="product-img-wrap">
-              <img
-                src="https://placehold.co/480x360/141414/d9d9dc?text=Silhouette+Titan"
-                alt="Silhouette Titan Minimal Art"
-                loading="lazy">
-            </div>
-            <div class="product-body">
-              <p class="product-brand">Silhouette</p>
-              <h3 class="product-name">Titan Minimal Art</h3>
-              <p class="product-type">Armazón Normal</p>
-              <span class="product-gender-tag">Unisex</span>
-              <div class="product-prices">
-                <span class="product-price">₡138.000</span>
-              </div>
-              <button class="product-wa-btn" onclick="cotizarWA('Silhouette Titan Minimal Art', '₡138.000')">
-                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
-              </button>
-            </div>
-          </article>
-
-          <!-- ─ Producto 5: Carrera Kids Champion ─ -->
-          <article class="product-card reveal reveal-delay-1"
-            data-brand="Carrera"
-            data-type="sol"
-            data-price="52000"
-            data-gender="ninos"
-            data-oferta="true">
-            <div class="product-img-wrap">
-              <img
-                src="https://placehold.co/480x360/141414/d9d9dc?text=Carrera+Kids"
-                alt="Carrera Kids Champion"
-                loading="lazy">
-              <span class="product-badge">Oferta</span>
-            </div>
-            <div class="product-body">
-              <p class="product-brand">Carrera</p>
-              <h3 class="product-name">Kids Champion</h3>
-              <p class="product-type">Lentes de Sol</p>
-              <span class="product-gender-tag">Niños</span>
-              <div class="product-prices">
-                <span class="product-price">₡52.000</span>
-                <span class="product-price-old">₡68.000</span>
-              </div>
-              <button class="product-wa-btn" onclick="cotizarWA('Carrera Kids Champion', '₡52.000 (Oferta)')">
-                <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
-              </button>
-            </div>
-          </article>
-
-          <!-- Estado vacío -->
+          <div class="catalog-loading" id="catalogLoading">
+            <i class="fas fa-spinner"></i>
+            <p>Cargando catalogo...</p>
+          </div>
           <div class="no-results" id="noResults">
             <i class="fas fa-glasses"></i>
             <p>No se encontraron productos con los filtros seleccionados.</p>
           </div>
-
-        </div><!-- /products-grid -->
-      </div><!-- /products area -->
+        </div>
+      </div>
     </div><!-- /catalog-layout -->
   </section>
+
+  <!-- ── Product Detail Modal ── -->
+  <div class="product-modal-overlay" id="productModal">
+    <div class="product-modal">
+      <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+      <div class="modal-gallery" id="modalGallery">
+        <button class="modal-gallery-nav prev" id="modalGalleryPrev"><i class="fas fa-chevron-left"></i></button>
+        <button class="modal-gallery-nav next" id="modalGalleryNext"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="modal-thumbs" id="modalThumbs"></div>
+      <div class="modal-body">
+        <p class="modal-brand" id="modalBrand"></p>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-specs" id="modalSpecs"></div>
+        <div class="modal-prices" id="modalPrices"></div>
+        <p class="modal-note">
+          <i class="fas fa-info-circle" style="color:var(--red);margin-right:0.3rem"></i>
+          El precio corresponde al aro. Los lentes se cotizan por separado.
+        </p>
+        <div class="modal-actions">
+          <button class="modal-wa-btn" id="modalWA">
+            <i class="fab fa-whatsapp"></i> Cotizar por WhatsApp
+          </button>
+          <button class="modal-back-btn" id="modalBack">
+            <i class="fas fa-arrow-left"></i> Volver al catalogo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ════════════════════════════════════════════════════════════════════
        UBICACIÓN
@@ -2005,34 +2166,225 @@
         `Hola, me interesa cotizar el siguiente producto:\n\n` +
         `*${nombre}*\n` +
         `Precio: ${precio}\n\n` +
-        `¿Podría darme más información?`
+        `¿Podria darme mas informacion?`
       );
       window.open(`https://wa.me/${WA_NUMBER}?text=${mensaje}`, '_blank');
     }
 
-    /* ── Filtros del catálogo ───────────────────────────────────────── */
-    function applyFilters() {
-      const brand    = document.getElementById('filterBrand').value;
-      const type     = document.getElementById('filterType').value;
-      const oferta   = document.getElementById('filterOferta').checked;
-      const sort     = document.getElementById('sortSelect').value;
-      const genders  = [...document.querySelectorAll('.gender-cb:checked')].map(c => c.value);
+    /* ── Catalogo dinamico desde Google Sheets ─────────────────────── */
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/1B_A7jAqZEJjqJK1MXfQ_nUcJeimmQaXfv7a4db0pJvw/gviz/tq?tqx=out:csv';
 
-      const cards   = [...document.querySelectorAll('.product-card')];
+    const BRAND_LOGOS = {
+      'david beckham': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png',
+      'david beckam': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187313/540a13ae-f735-48a4-9f3b-edfb2c543eda.png',
+      'pepe jeans': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187535/31f0c8c6-bb0a-4eb8-8aac-1cefe5204752.png',
+      'marchon': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187711/05518964-89ef-4ff0-a43a-df67c21e9ee2.png',
+      'adidas': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187771/21451ba2-d1a5-45ba-a653-10a3b5101573.png',
+      'guess': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775187896/e0336947-77b1-422d-9da2-5d41d9c87c4a.png',
+      'roberto cavalli': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188035/29824b79-ec20-4ebf-b1c0-ffbd7fff3454.png',
+      'swarovski': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188118/0d107fb8-8d42-4217-bf54-4965d3fce7a6.png',
+      'marc jacobs': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775188201/19520c74-44ff-43fa-a567-a1b7c13746a5.png',
+      'carrera': 'https://res.cloudinary.com/dhivad2xo/image/upload/v1775191262/carrerabrand_lhrlle.png'
+    };
+
+    const COLOR_MAP = {
+      'negro': '#222', 'cafe': '#8B4513', 'dorado': '#DAA520', 'transparente': '#ccc',
+      'rojo': '#c0392b', 'azul': '#2980b9', 'gris': '#888', 'verde': '#27ae60',
+      'jade': '#00a86b', 'blanco': '#f0f0f0', 'rosado': '#e91e8c', 'morado': '#8e44ad',
+      'plateado': '#C0C0C0', 'tortoise': '#8B6914', 'naranja': '#e67e22', 'amarillo': '#f1c40f'
+    };
+
+    let allProducts = [];
+
+    function* csvGenerator(text) {
+      let current = '';
+      let inQuotes = false;
+      const row = [];
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (ch === '"') {
+          if (inQuotes && text[i + 1] === '"') { current += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if (ch === ',' && !inQuotes) {
+          row.push(current); current = '';
+        } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+          row.push(current);
+          yield row.slice();
+          row.length = 0; current = '';
+          if (ch === '\r' && text[i + 1] === '\n') i++;
+        } else {
+          current += ch;
+        }
+      }
+      if (current.length || row.length) { row.push(current); yield row; }
+    }
+
+    function formatPrice(n) {
+      if (!n) return '';
+      return '\u20A1' + Number(n).toLocaleString('es-CR');
+    }
+
+    function getProductImages(product) {
+      const urls = (product.imagen_url || '').trim();
+      if (urls) {
+        return urls.split(/\s+/).filter(u => u.startsWith('http'));
+      }
+      const brandLogo = BRAND_LOGOS[product.marca.toLowerCase()];
+      if (brandLogo) return [brandLogo];
+      return [];
+    }
+
+    function capitalize(s) {
+      if (!s) return '';
+      return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    }
+
+    async function loadCatalog() {
+      try {
+        const res = await fetch(SHEET_CSV_URL);
+        const text = await res.text();
+        const rows = [...csvGenerator(text)];
+        if (rows.length < 2) return;
+
+        const headers = rows[0].map(h => h.trim().toLowerCase().replace(/\s+/g, '_'));
+
+        for (let i = 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row[0] || row.length < 2) continue;
+          const product = {};
+          headers.forEach((h, j) => { product[h] = (row[j] || '').trim(); });
+
+          if (product.disponible && product.disponible.toUpperCase() !== 'SI') continue;
+
+          product.precio = parseInt(product.precio) || 0;
+          product.oferta_precio = parseInt(product.oferta) || 0;
+          product.marca = product.marca || '';
+          product.categoria = (product.categoria || product['categoria_'] || '').toLowerCase();
+          product.color = (product.color || '').toLowerCase();
+          product.tipo = (product.tipo || '').toLowerCase();
+          product.descripcion = product.descripcion || product['descripcion'] || '';
+
+          allProducts.push(product);
+        }
+
+        populateFilters();
+        renderProducts();
+      } catch (err) {
+        console.error('Error loading catalog:', err);
+        document.getElementById('catalogLoading').innerHTML =
+          '<i class="fas fa-exclamation-triangle" style="color:var(--red);font-size:2rem;display:block;margin-bottom:1rem"></i>' +
+          '<p>Error al cargar el catalogo. Intente recargar la pagina.</p>';
+      }
+    }
+
+    function populateFilters() {
+      const sets = { brand: new Set(), categoria: new Set(), color: new Set(), tipo: new Set() };
+      allProducts.forEach(p => {
+        if (p.marca) sets.brand.add(p.marca);
+        if (p.categoria) sets.categoria.add(p.categoria);
+        if (p.color) sets.color.add(p.color);
+        if (p.tipo) sets.tipo.add(p.tipo);
+      });
+
+      function fill(selectId, values) {
+        const sel = document.getElementById(selectId);
+        [...values].sort().forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v;
+          opt.textContent = capitalize(v);
+          sel.appendChild(opt);
+        });
+      }
+
+      fill('filterBrand', sets.brand);
+      fill('filterCategoria', sets.categoria);
+      fill('filterColor', sets.color);
+      fill('filterType', sets.tipo);
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('productsGrid');
+      const loading = document.getElementById('catalogLoading');
+      if (loading) loading.remove();
+
+      allProducts.forEach((product, idx) => {
+        const images = getProductImages(product);
+        const hasOffer = product.oferta_precio > 0;
+        const displayPrice = hasOffer ? product.oferta_precio : product.precio;
+        const card = document.createElement('article');
+        card.className = 'product-card reveal';
+        card.dataset.brand = product.marca;
+        card.dataset.categoria = product.categoria;
+        card.dataset.color = product.color;
+        card.dataset.type = product.tipo;
+        card.dataset.price = displayPrice;
+        card.dataset.oferta = hasOffer ? 'true' : 'false';
+        card.dataset.idx = idx;
+
+        let imgHTML = '';
+        if (images.length > 0 && (product.imagen_url || '').trim()) {
+          imgHTML = `<img src="${images[0]}" alt="${product.marca}" loading="lazy">`;
+        } else if (images.length > 0) {
+          imgHTML = `<div class="product-img-placeholder"><img src="${images[0]}" alt="${product.marca}"></div>`;
+        } else {
+          imgHTML = `<div class="product-img-placeholder"><span>${product.marca}</span></div>`;
+        }
+
+        const badgeHTML = hasOffer ? '<span class="product-badge">Oferta</span>' : '';
+        const colorDot = COLOR_MAP[product.color] ? `<span class="product-color-dot" style="background:${COLOR_MAP[product.color]}"></span>` : '';
+
+        let pricesHTML = `<span class="product-price">${formatPrice(displayPrice)}</span>`;
+        if (hasOffer) {
+          pricesHTML += ` <span class="product-price-old">${formatPrice(product.precio)}</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="product-img-wrap">
+            ${imgHTML}
+            ${badgeHTML}
+          </div>
+          <div class="product-body">
+            <p class="product-brand">${product.marca}</p>
+            <p class="product-type">${capitalize(product.tipo)}</p>
+            <span class="product-gender-tag">${colorDot}${capitalize(product.color)} &middot; ${capitalize(product.categoria)}</span>
+            <div class="product-prices">${pricesHTML}</div>
+            <button class="product-wa-btn" onclick="event.stopPropagation(); cotizarWA('${product.marca} - ${capitalize(product.tipo)}', '${formatPrice(displayPrice)}')">
+              <i class="fab fa-whatsapp"></i> Cotizar
+            </button>
+          </div>`;
+
+        card.addEventListener('click', () => openProductModal(idx));
+        grid.appendChild(card);
+      });
+
+      applyFilters();
+      document.querySelectorAll('.product-card.reveal').forEach(el => revealObserver.observe(el));
+    }
+
+    /* ── Filtros ────────────────────────────────────────────────────── */
+    function applyFilters() {
+      const brand = document.getElementById('filterBrand').value;
+      const categoria = document.getElementById('filterCategoria').value;
+      const color = document.getElementById('filterColor').value;
+      const type = document.getElementById('filterType').value;
+      const oferta = document.getElementById('filterOferta').checked;
+      const sort = document.getElementById('sortSelect').value;
+
+      const cards = [...document.querySelectorAll('.product-card')];
       const visible = [];
 
       cards.forEach(card => {
         const match =
-          (!brand   || card.dataset.brand  === brand)  &&
-          (!type    || card.dataset.type   === type)   &&
-          (genders.length === 0 || genders.includes(card.dataset.gender)) &&
-          (!oferta  || card.dataset.oferta === 'true');
+          (!brand || card.dataset.brand === brand) &&
+          (!categoria || card.dataset.categoria === categoria) &&
+          (!color || card.dataset.color === color) &&
+          (!type || card.dataset.type === type) &&
+          (!oferta || card.dataset.oferta === 'true');
 
         card.style.display = match ? '' : 'none';
         if (match) visible.push(card);
       });
 
-      // Ordenar
       if (sort === 'asc' || sort === 'desc') {
         const grid = document.getElementById('productsGrid');
         visible.sort((a, b) => {
@@ -2047,21 +2399,148 @@
     }
 
     function resetFilters() {
-      document.getElementById('filterBrand').value     = '';
-      document.getElementById('filterType').value      = '';
-      document.getElementById('filterOferta').checked  = false;
-      document.getElementById('sortSelect').value      = '';
-      document.querySelectorAll('.gender-cb').forEach(cb => cb.checked = false);
+      document.getElementById('filterBrand').value = '';
+      document.getElementById('filterCategoria').value = '';
+      document.getElementById('filterColor').value = '';
+      document.getElementById('filterType').value = '';
+      document.getElementById('filterOferta').checked = false;
+      document.getElementById('sortSelect').value = '';
       applyFilters();
     }
 
-    /* ── Auto-aplicar filtros al cambiar cualquier control ─────────── */
-    document.getElementById('filterBrand').addEventListener('change', applyFilters);
-    document.getElementById('filterType').addEventListener('change', applyFilters);
-    document.getElementById('filterOferta').addEventListener('change', applyFilters);
-    document.querySelectorAll('.gender-cb').forEach(cb => {
-      cb.addEventListener('change', applyFilters);
+    ['filterBrand', 'filterCategoria', 'filterColor', 'filterType'].forEach(id => {
+      document.getElementById(id).addEventListener('change', applyFilters);
     });
+    document.getElementById('filterOferta').addEventListener('change', applyFilters);
+
+    /* ── Modal de producto ──────────────────────────────────────────── */
+    let modalGalleryIdx = 0;
+    let modalImages = [];
+
+    function openProductModal(idx) {
+      const p = allProducts[idx];
+      if (!p) return;
+      const overlay = document.getElementById('productModal');
+      const images = getProductImages(p);
+      modalImages = images;
+      modalGalleryIdx = 0;
+
+      document.getElementById('modalBrand').textContent = p.marca;
+
+      const titleParts = [capitalize(p.tipo)];
+      if (p.color) titleParts.push(capitalize(p.color));
+      document.getElementById('modalTitle').textContent = titleParts.join(' - ');
+
+      const descEl = document.getElementById('modalDesc');
+      if (p.descripcion) {
+        descEl.textContent = p.descripcion;
+        descEl.style.display = '';
+      } else {
+        descEl.style.display = 'none';
+      }
+
+      document.getElementById('modalSpecs').innerHTML = `
+        <span class="modal-spec"><strong>Categoria:</strong> ${capitalize(p.categoria)}</span>
+        <span class="modal-spec"><strong>Color:</strong> ${capitalize(p.color)}</span>
+        <span class="modal-spec"><strong>Tipo de aro:</strong> ${capitalize(p.tipo)}</span>
+      `;
+
+      const hasOffer = p.oferta_precio > 0;
+      const displayPrice = hasOffer ? p.oferta_precio : p.precio;
+      let pricesHTML = `<span class="modal-price-main">${formatPrice(displayPrice)}</span>`;
+      if (hasOffer) {
+        pricesHTML += ` <span class="modal-price-old">${formatPrice(p.precio)}</span>`;
+        pricesHTML += ` <span class="modal-offer-tag">Oferta</span>`;
+      }
+      document.getElementById('modalPrices').innerHTML = pricesHTML;
+
+      // Gallery
+      const gallery = document.getElementById('modalGallery');
+      gallery.querySelectorAll('img').forEach(img => img.remove());
+      const thumbs = document.getElementById('modalThumbs');
+      thumbs.innerHTML = '';
+
+      const prevNav = document.getElementById('modalGalleryPrev');
+      const nextNav = document.getElementById('modalGalleryNext');
+
+      if (images.length > 0) {
+        images.forEach((url, i) => {
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = `${p.marca} foto ${i + 1}`;
+          if (i === 0) img.classList.add('active');
+          gallery.insertBefore(img, prevNav);
+
+          if (images.length > 1) {
+            const thumb = document.createElement('img');
+            thumb.src = url;
+            thumb.alt = `Miniatura ${i + 1}`;
+            if (i === 0) thumb.classList.add('active');
+            thumb.addEventListener('click', () => showModalImage(i));
+            thumbs.appendChild(thumb);
+          }
+        });
+        prevNav.style.display = images.length > 1 ? '' : 'none';
+        nextNav.style.display = images.length > 1 ? '' : 'none';
+        thumbs.style.display = images.length > 1 ? '' : 'none';
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'product-img-placeholder';
+        placeholder.innerHTML = `<span style="font-size:2rem">${p.marca}</span>`;
+        placeholder.style.width = '100%';
+        placeholder.style.height = '100%';
+        gallery.insertBefore(placeholder, prevNav);
+        prevNav.style.display = 'none';
+        nextNav.style.display = 'none';
+        thumbs.style.display = 'none';
+      }
+
+      // WhatsApp button
+      document.getElementById('modalWA').onclick = () => {
+        cotizarWA(`${p.marca} - ${capitalize(p.tipo)} (${capitalize(p.color)})`, formatPrice(displayPrice));
+      };
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function showModalImage(idx) {
+      modalGalleryIdx = idx;
+      const gallery = document.getElementById('modalGallery');
+      gallery.querySelectorAll('img').forEach((img, i) => {
+        img.classList.toggle('active', i === idx);
+      });
+      const thumbs = document.getElementById('modalThumbs');
+      thumbs.querySelectorAll('img').forEach((img, i) => {
+        img.classList.toggle('active', i === idx);
+      });
+    }
+
+    function closeProductModal() {
+      document.getElementById('productModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('modalClose').addEventListener('click', closeProductModal);
+    document.getElementById('modalBack').addEventListener('click', closeProductModal);
+    document.getElementById('productModal').addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) closeProductModal();
+    });
+    document.getElementById('modalGalleryPrev').addEventListener('click', () => {
+      if (modalImages.length > 1) showModalImage((modalGalleryIdx - 1 + modalImages.length) % modalImages.length);
+    });
+    document.getElementById('modalGalleryNext').addEventListener('click', () => {
+      if (modalImages.length > 1) showModalImage((modalGalleryIdx + 1) % modalImages.length);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('productModal').classList.contains('open')) return;
+      if (e.key === 'Escape') closeProductModal();
+      if (e.key === 'ArrowLeft' && modalImages.length > 1) showModalImage((modalGalleryIdx - 1 + modalImages.length) % modalImages.length);
+      if (e.key === 'ArrowRight' && modalImages.length > 1) showModalImage((modalGalleryIdx + 1) % modalImages.length);
+    });
+
+    // Load catalog on page ready
+    loadCatalog();
 
     /* ── Carrusel 3D de Reseñas ─────────────────────────────────────── */
     (function() {
