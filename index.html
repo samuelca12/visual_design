@@ -1645,8 +1645,15 @@
         </div>
 
         <div class="filter-group">
-          <label class="filter-group-label">Color</label>
-          <select class="filter-select" id="filterColor">
+          <label class="filter-group-label">Color de aro</label>
+          <select class="filter-select" id="filterColorAro">
+            <option value="">Todos los colores</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-group-label">Color de lente</label>
+          <select class="filter-select" id="filterColorLente">
             <option value="">Todos los colores</option>
           </select>
         </div>
@@ -1781,7 +1788,7 @@
 
       <div class="location-map-wrap reveal reveal-delay-2">
         <iframe
-          src="https://maps.google.com/maps?q=9.94106,-84.12629&t=&z=17&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=9.944294,-84.117198&t=&z=17&ie=UTF8&iwloc=&output=embed"
           allowfullscreen
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
@@ -2289,9 +2296,10 @@
           product.oferta_precio = parseInt(product.oferta) || 0;
           product.marca = product.marca || '';
           product.categoria = (product.categoria || product['categoria_'] || '').toLowerCase();
-          product.color = (product.color || '').toLowerCase();
+          product.color_aro = (product.color_de_aro || '').toLowerCase();
+          product.color_lente = (product.color_de_lente || '').toLowerCase();
           product.tipo = (product.tipo || '').toLowerCase();
-          product.descripcion = product.descripcion || product['descripcion'] || '';
+          product.descripcion = product.descripcion || '';
 
           allProducts.push(product);
         }
@@ -2307,11 +2315,12 @@
     }
 
     function populateFilters() {
-      const sets = { brand: new Set(), categoria: new Set(), color: new Set(), tipo: new Set() };
+      const sets = { brand: new Set(), categoria: new Set(), colorAro: new Set(), colorLente: new Set(), tipo: new Set() };
       allProducts.forEach(p => {
         if (p.marca) sets.brand.add(p.marca);
         if (p.categoria) sets.categoria.add(p.categoria);
-        if (p.color) sets.color.add(p.color);
+        if (p.color_aro) sets.colorAro.add(p.color_aro);
+        if (p.color_lente) sets.colorLente.add(p.color_lente);
         if (p.tipo) sets.tipo.add(p.tipo);
       });
 
@@ -2327,7 +2336,8 @@
 
       fill('filterBrand', sets.brand);
       fill('filterCategoria', sets.categoria);
-      fill('filterColor', sets.color);
+      fill('filterColorAro', sets.colorAro);
+      fill('filterColorLente', sets.colorLente);
       fill('filterType', sets.tipo);
     }
 
@@ -2344,7 +2354,8 @@
         card.className = 'product-card reveal';
         card.dataset.brand = product.marca;
         card.dataset.categoria = product.categoria;
-        card.dataset.color = product.color;
+        card.dataset.colorAro = product.color_aro;
+        card.dataset.colorLente = product.color_lente;
         card.dataset.type = product.tipo;
         card.dataset.price = displayPrice;
         card.dataset.oferta = hasOffer ? 'true' : 'false';
@@ -2374,11 +2385,7 @@
           </div>
           <div class="product-body">
             <p class="product-brand">${product.marca}</p>
-            <p class="product-meta">${capitalize(product.tipo)} &middot; ${capitalize(product.categoria)}</p>
             <div class="product-prices">${pricesHTML}</div>
-            <button class="product-wa-btn" onclick="event.stopPropagation(); cotizarWA('${product.marca} - ${capitalize(product.tipo)}', '${formatPrice(displayPrice)}')">
-              <i class="fab fa-whatsapp"></i> Cotizar
-            </button>
           </div>`;
 
         card.addEventListener('click', () => openProductModal(idx));
@@ -2409,11 +2416,12 @@
     function applyFilters() {
       const brand = document.getElementById('filterBrand').value;
       const categoria = document.getElementById('filterCategoria').value;
-      const color = document.getElementById('filterColor').value;
+      const colorAro = document.getElementById('filterColorAro').value;
+      const colorLente = document.getElementById('filterColorLente').value;
       const type = document.getElementById('filterType').value;
       const oferta = document.getElementById('filterOferta').checked;
       const sort = document.getElementById('sortSelect').value;
-      const hasFilters = brand || categoria || color || type || oferta;
+      const hasFilters = brand || categoria || colorAro || colorLente || type || oferta;
 
       const grid = document.getElementById('productsGrid');
       const cards = [...document.querySelectorAll('.product-card')];
@@ -2425,7 +2433,8 @@
         const match =
           (!brand || card.dataset.brand === brand) &&
           (!categoria || card.dataset.categoria === categoria) &&
-          (!color || card.dataset.color === color) &&
+          (!colorAro || card.dataset.colorAro === colorAro) &&
+          (!colorLente || card.dataset.colorLente === colorLente) &&
           (!type || card.dataset.type === type) &&
           (!oferta || card.dataset.oferta === 'true');
 
@@ -2472,14 +2481,15 @@
     function resetFilters() {
       document.getElementById('filterBrand').value = '';
       document.getElementById('filterCategoria').value = '';
-      document.getElementById('filterColor').value = '';
+      document.getElementById('filterColorAro').value = '';
+      document.getElementById('filterColorLente').value = '';
       document.getElementById('filterType').value = '';
       document.getElementById('filterOferta').checked = false;
       document.getElementById('sortSelect').value = '';
       applyFilters();
     }
 
-    ['filterBrand', 'filterCategoria', 'filterColor', 'filterType'].forEach(id => {
+    ['filterBrand', 'filterCategoria', 'filterColorAro', 'filterColorLente', 'filterType'].forEach(id => {
       document.getElementById(id).addEventListener('change', applyFilters);
     });
     document.getElementById('filterOferta').addEventListener('change', applyFilters);
@@ -2508,10 +2518,12 @@
         descEl.style.display = 'none';
       }
 
-      document.getElementById('modalSpecs').innerHTML = `
+      let specsHTML = `
         <span class="modal-spec"><strong>Categoria:</strong> ${capitalize(p.categoria)}</span>
-        <span class="modal-spec"><strong>Tipo de aro:</strong> ${capitalize(p.tipo)}</span>
-      `;
+        <span class="modal-spec"><strong>Tipo de aro:</strong> ${capitalize(p.tipo)}</span>`;
+      if (p.color_aro) specsHTML += `<span class="modal-spec"><strong>Color de aro:</strong> ${capitalize(p.color_aro)}</span>`;
+      if (p.color_lente) specsHTML += `<span class="modal-spec"><strong>Color de lente:</strong> ${capitalize(p.color_lente)}</span>`;
+      document.getElementById('modalSpecs').innerHTML = specsHTML;
 
       const hasOffer = p.oferta_precio > 0;
       const displayPrice = hasOffer ? p.oferta_precio : p.precio;
