@@ -552,14 +552,37 @@
 
     .product-badge {
       position: absolute;
-      top: 0.9rem; left: 0.9rem;
+      top: 0; right: 0;
+      width: 80px; height: 80px;
+      overflow: hidden;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .product-badge::before {
+      content: 'Oferta';
+      position: absolute;
+      top: 18px; right: -22px;
+      width: 120px;
+      padding: 0.3rem 0;
       background: var(--red);
       color: var(--white);
       font-family: var(--font-ph);
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      padding: 0.28rem 0.65rem;
+      text-align: center;
+      transform: rotate(45deg);
+      box-shadow: 0 3px 10px rgba(154, 0, 0, 0.5);
+    }
+    .product-badge::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 0 80px 80px 0;
+      border-color: transparent rgba(154, 0, 0, 0.08) transparent transparent;
     }
 
     .product-body {
@@ -2370,7 +2393,7 @@
           imgHTML = `<div class="product-img-placeholder"><span>${product.marca}</span></div>`;
         }
 
-        const badgeHTML = hasOffer ? '<span class="product-badge">Oferta</span>' : '';
+        const badgeHTML = hasOffer ? '<span class="product-badge"></span>' : '';
         const colorDot = COLOR_MAP[product.color] ? `<span class="product-color-dot" style="background:${COLOR_MAP[product.color]}"></span>` : '';
 
         let pricesHTML = `<span class="product-price">${formatPrice(displayPrice)}</span>`;
